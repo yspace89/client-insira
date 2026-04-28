@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { 
   Home,
   DollarSign,
@@ -13,14 +14,14 @@ import {
   ChevronDown
 } from 'lucide-react';
 
-const SidebarItem = ({ icon: Icon, label, active = false, hasDropdown = false }) => (
-  <div className={`nav-item-tw ${active ? 'active' : ''}`}>
+const SidebarItem = ({ icon: Icon, label, active = false, hasDropdown = false, href = "#" }) => (
+  <Link href={href} className={`nav-item-tw ${active ? 'active' : ''} block`}>
     <div className="flex items-center gap-3 flex-1">
       <Icon size={20} className={active ? 'text-blue-600' : 'text-slate-500'} />
       <span>{label}</span>
     </div>
     {hasDropdown && <ChevronDown size={16} className="opacity-40" />}
-  </div>
+  </Link>
 );
 
 export default function Sidebar({ activeMenu }) {
@@ -44,7 +45,7 @@ export default function Sidebar({ activeMenu }) {
 
       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-4">Menu</div>
       <nav className="flex-1 flex flex-col gap-1 overflow-y-auto pr-2">
-        <SidebarItem icon={Home} label="Beranda" active={activeMenu === "Beranda"} />
+        <SidebarItem icon={Home} label="Beranda" href="/" active={activeMenu === "Beranda"} />
         <SidebarItem icon={DollarSign} label="Progress Komisi" active={activeMenu === "Progress Komisi"} />
         <SidebarItem icon={Trophy} label="Capaian Sales" active={activeMenu === "Capaian Sales"} />
         <SidebarItem icon={Calculator} label="Simulasi Angsuran" active={activeMenu === "Simulasi Angsuran"} />
@@ -53,7 +54,7 @@ export default function Sidebar({ activeMenu }) {
         <SidebarItem icon={Calendar} label="Event" hasDropdown active={activeMenu === "Event"} />
         <SidebarItem icon={RotateCcw} label="Request Refund" active={activeMenu === "Request Refund"} />
         <SidebarItem icon={List} label="Pembelian OTS" active={activeMenu === "Pembelian OTS"} />
-        <SidebarItem icon={ClipboardList} label="Prospek Akad" active={activeMenu === "Prospek Akad"} />
+        <SidebarItem icon={ClipboardList} label="Prospek Akad" href="/prospek-akad" active={activeMenu === "Prospek Akad"} />
       </nav>
 
       <div className="mt-auto pt-6 border-t border-slate-100">
