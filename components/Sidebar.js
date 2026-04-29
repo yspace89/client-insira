@@ -51,6 +51,7 @@ export default function Sidebar({ activeMenu }) {
     { icon: RotateCcw, label: "Request Refund" },
     { icon: List, label: "Pembelian OTS" },
     { icon: ClipboardList, label: "Prospek Akad", href: "/prospek-akad" },
+    { icon: DollarSign, label: "Setting Harga", href: "/setting-harga" },
   ];
 
   const filteredItems = menuItems.filter(item => 
