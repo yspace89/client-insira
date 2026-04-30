@@ -48,6 +48,7 @@ export default function CapaianSales() {
     akad: {
       title: 'Rincian Unit yang Sudah Akad',
       total: '50 Unit',
+      unitLabel: 'Unit',
       items: [
         { type: 'Single', count: 10, percent: '20%' },
         { type: 'Single Premiere', count: 10, percent: '20%' },
@@ -59,7 +60,8 @@ export default function CapaianSales() {
     },
     registrasi: {
       title: 'Capaian Registrasi Masing-Masing Role',
-      total: '124 User',
+      total: '124 Registrasi',
+      unitLabel: 'Registrasi',
       items: [
         { type: 'Memorial Officer', count: 60, percent: '48%' },
         { type: 'Memorial Promotor', count: 40, percent: '32%' },
@@ -69,6 +71,7 @@ export default function CapaianSales() {
     nup: {
       title: 'Capaian NUP Masing-Masing Role',
       total: '86 NUP',
+      unitLabel: 'NUP',
       items: [
         { type: 'Memorial Officer', count: 40, percent: '47%' },
         { type: 'Memorial Promotor', count: 30, percent: '35%' },
@@ -77,7 +80,8 @@ export default function CapaianSales() {
     },
     booking: {
       title: 'Capaian Booking Fee Masing-Masing Role',
-      total: '62 Booking',
+      total: '62 Booking Fee',
+      unitLabel: 'Booking Fee',
       items: [
         { type: 'Memorial Officer', count: 30, percent: '48%' },
         { type: 'Memorial Promotor', count: 20, percent: '32%' },
@@ -353,7 +357,7 @@ export default function CapaianSales() {
                       <div className="flex items-center gap-2.5">
                         <span className="text-[15px] font-bold text-blue-600">{item.count}</span>
                         <span className="text-[10px] font-bold text-slate-400 uppercase">
-                          {modalType === 'akad' ? 'Unit' : 'User'}
+                          {currentModal.unitLabel}
                         </span>
                       </div>
                     </div>
