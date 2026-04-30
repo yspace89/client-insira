@@ -43,7 +43,7 @@ export default function Sidebar({ activeMenu }) {
   const menuItems = [
     { icon: Home, label: "Beranda", href: "/" },
     { icon: DollarSign, label: "Progress Komisi" },
-    { icon: Trophy, label: "Capaian Sales" },
+    { icon: Trophy, label: "Capaian Sales", href: "/capaian-sales" },
     { icon: Calculator, label: "Simulasi Angsuran" },
     { icon: Building2, label: "Agensi", hasDropdown: true },
     { icon: Users2, label: "Tim", hasDropdown: true },
