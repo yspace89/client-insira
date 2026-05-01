@@ -95,7 +95,7 @@ export default function Sidebar({ activeMenu }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1.5 overflow-y-auto no-scrollbar px-1">
+      <nav className="flex-1 space-y-1.5 overflow-y-auto overflow-x-hidden no-scrollbar px-1 py-2">
         {filteredMenuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeMenu === item.label;
@@ -105,23 +105,27 @@ export default function Sidebar({ activeMenu }) {
             <Link
               key={item.label}
               href={href}
-              className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl transition-all duration-300 group relative ${
+              className={`w-full flex items-center rounded-2xl transition-all duration-300 group relative ${
                 isActive 
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-200/50 scale-[1.02]' 
+                ? 'bg-blue-50/80 text-blue-600 shadow-[0_4px_12px_rgba(37,99,235,0.08)]' 
                 : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
-              }`}
+              } ${isCollapsed ? 'justify-center h-12' : 'gap-3.5 px-4 py-3'}`}
             >
-              <div className={`transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}>
-                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+              <div className={`transition-all duration-300 ${isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-500'} ${isCollapsed ? '' : ''}`}>
+                <Icon size={isCollapsed ? 22 : 20} strokeWidth={isActive ? 2.5 : 2} />
               </div>
+              
               {!isCollapsed && (
-                <span className={`text-sm font-bold tracking-tight transition-all duration-300 ${isActive ? 'translate-x-0.5' : ''}`}>{item.label}</span>
+                <span className={`text-sm font-bold tracking-tight transition-all duration-300 ${isActive ? 'translate-x-0.5 font-black' : ''}`}>{item.label}</span>
               )}
-              {isActive && !isCollapsed && (
-                <div className="absolute right-3 w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+              
+              {isActive && (
+                <div className={`absolute rounded-full bg-blue-600 transition-all duration-300 ${isCollapsed ? 'left-0 w-1 h-6 top-1/2 -translate-y-1/2' : 'right-4 w-1.5 h-1.5'}`} />
               )}
+              
               {isCollapsed && (
-                <div className="absolute left-full ml-4 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 shadow-xl">
+                <div className="absolute left-full ml-4 px-3 py-2 bg-slate-900 text-white text-[10px] font-bold rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 shadow-2xl">
+                  <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-8 border-transparent border-r-slate-900" />
                   {item.label}
                 </div>
               )}
@@ -132,14 +136,14 @@ export default function Sidebar({ activeMenu }) {
 
       {/* User Section */}
       <div className="mt-auto pt-6 border-t border-slate-50">
-        <div className={`flex items-center gap-3 p-2.5 rounded-2xl transition-all duration-300 group ${isCollapsed ? 'justify-center cursor-pointer hover:bg-slate-50' : 'bg-slate-50/50 border border-slate-100'}`}>
-          <div className="relative">
+        <div className={`flex items-center rounded-2xl transition-all duration-300 group ${isCollapsed ? 'justify-center p-0 h-12' : 'gap-3 p-2.5 bg-slate-50/50 border border-slate-100 hover:bg-slate-50'}`}>
+          <div className="relative flex-shrink-0">
             <img 
               src="https://ui-avatars.com/api/?name=Y+Space&background=000&color=fff" 
-              className="w-10 h-10 rounded-xl flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform" 
+              className="w-9 h-9 rounded-xl shadow-sm group-hover:scale-105 transition-transform" 
               alt="Avatar" 
             />
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
+            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col overflow-hidden animate-fadeIn">
@@ -151,6 +155,12 @@ export default function Sidebar({ activeMenu }) {
             <button className="ml-auto p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-lg transition-all shadow-sm">
               <LogOut size={14} />
             </button>
+          )}
+          {isCollapsed && (
+            <div className="absolute left-full ml-4 px-3 py-2 bg-slate-900 text-white text-[10px] font-bold rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50 shadow-2xl">
+              <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 border-8 border-transparent border-r-slate-900" />
+              Y-Space Profile
+            </div>
           )}
         </div>
       </div>

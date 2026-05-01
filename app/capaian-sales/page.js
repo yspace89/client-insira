@@ -20,7 +20,8 @@ import {
   Rocket,
   X,
   PieChart,
-  ExternalLink
+  ExternalLink,
+  ArrowRight
 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
@@ -29,9 +30,8 @@ export default function CapaianSales() {
   const [activeTab, setActiveTab] = useState('Kuartal ini');
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedRowId, setExpandedRowId] = useState(1);
-  const [modalType, setModalType] = useState(null); // 'akad', 'registrasi', 'nup', 'booking'
+  const [modalType, setModalType] = useState(null); 
 
-  // Realistic Data
   const stats = {
     totalCIT: "Rp 12.450.000.000",
     totalCIR: "Rp 8.120.000.000",
@@ -43,10 +43,9 @@ export default function CapaianSales() {
     akadProsesi: 12
   };
 
-  // Breakdown Data
   const dataMap = {
     akad: {
-      title: 'Rincian Unit yang Sudah Akad',
+      title: 'Rincian Unit Sudah Akad',
       total: '50 Unit',
       unitLabel: 'Unit',
       items: [
@@ -59,7 +58,7 @@ export default function CapaianSales() {
       ]
     },
     registrasi: {
-      title: 'Capaian Registrasi Masing-Masing Role',
+      title: 'Capaian Registrasi Role',
       total: '124 Registrasi',
       unitLabel: 'Registrasi',
       items: [
@@ -69,7 +68,7 @@ export default function CapaianSales() {
       ]
     },
     nup: {
-      title: 'Capaian NUP Masing-Masing Role',
+      title: 'Capaian NUP Role',
       total: '86 NUP',
       unitLabel: 'NUP',
       items: [
@@ -79,7 +78,7 @@ export default function CapaianSales() {
       ]
     },
     booking: {
-      title: 'Capaian Booking Fee Masing-Masing Role',
+      title: 'Capaian Booking Fee Role',
       total: '62 Booking Fee',
       unitLabel: 'Booking Fee',
       items: [
@@ -125,11 +124,11 @@ export default function CapaianSales() {
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar activeMenu="Capaian Sales" />
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 overflow-hidden">
         <Header title="Laporan Performa Sales" />
 
-        {/* Action Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        {/* Action Header - Modern Sync */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-6">
           <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit gap-1">
             {['Semua', 'Kuartal ini', 'Kuartal Sebelumnya'].map(tab => (
               <button 
@@ -141,181 +140,191 @@ export default function CapaianSales() {
               </button>
             ))}
           </div>
-          <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-slate-950 transition-colors shadow-sm">
+          <button className="bg-slate-900 text-white px-6 py-3 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-200">
             <Download size={18} />
-            Export Data
+            Export Laporan
           </button>
         </div>
 
-        {/* Row 1: Primary Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="card-stat bg-white flex flex-col justify-between">
-            <div className="flex justify-between items-start mb-2">
+        {/* Row 1: Primary Metrics - Mesh Gradient Sync */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-lg transition-all group">
+            <div className="flex justify-between items-start mb-6">
               <div>
-                <div className="text-sm font-medium text-slate-500 mb-1">Total CIT</div>
-                <div className="text-3xl font-bold text-slate-900">{stats.totalCIT}</div>
+                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 leading-tight">Total CIT</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{stats.totalCIT}</div>
               </div>
-              <div className="w-10 h-10 flex items-center justify-center bg-amber-50 text-amber-500 rounded-xl">
-                <Wallet size={20} />
+              <div className="w-12 h-12 flex items-center justify-center bg-amber-50 text-amber-500 rounded-2xl group-hover:scale-110 transition-transform">
+                <Wallet size={24} />
               </div>
             </div>
             {activeTab !== 'Semua' && (
-              <div className="flex items-center gap-1.5 mt-2 animate-fadeIn">
-                <span className="inline-flex items-center justify-center bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[10px] font-bold">12.5%</span>
-                <span className="text-[11px] font-medium text-slate-400">vs Kuartal Sebelumnya</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-xl w-fit">
+                <span className="text-[10px] font-black">12.5%</span>
+                <span className="text-[10px] font-bold opacity-60">VS PREVIOUS</span>
               </div>
             )}
           </div>
 
-          <div className="card-stat bg-white flex flex-col justify-between">
-            <div className="flex justify-between items-start mb-2">
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-lg transition-all group">
+            <div className="flex justify-between items-start mb-6">
               <div>
-                <div className="text-sm font-medium text-slate-500 mb-1">Total CIR</div>
-                <div className="text-3xl font-bold text-slate-900">{stats.totalCIR}</div>
+                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 leading-tight">Total CIR</div>
+                <div className="text-3xl font-black text-slate-900 tracking-tight">{stats.totalCIR}</div>
               </div>
-              <div className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-xl">
-                <TrendingUp size={20} />
+              <div className="w-12 h-12 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-2xl group-hover:scale-110 transition-transform">
+                <TrendingUp size={24} />
               </div>
             </div>
             {activeTab !== 'Semua' && (
-              <div className="flex items-center gap-1.5 mt-2 animate-fadeIn">
-                <span className="inline-flex items-center justify-center bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[10px] font-bold">+8.4%</span>
-                <span className="text-[11px] font-medium text-slate-400">vs Kuartal Sebelumnya</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-600 rounded-xl w-fit">
+                <span className="text-[10px] font-black">+8.4%</span>
+                <span className="text-[10px] font-bold opacity-60">VS PREVIOUS</span>
               </div>
             )}
           </div>
 
-          {/* Card 3: Akad Unit */}
-          <div className="card-stat bg-blue-600 text-white border-none shadow-blue-200 relative overflow-hidden flex flex-col justify-between min-h-[140px]">
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
-            <div className="relative z-10 flex flex-col justify-between h-full">
-              <div className="flex justify-between items-start">
-                <div className="text-base font-bold text-white">Akad Unit</div>
-                <div className="w-10 h-10 flex items-center justify-center bg-white/20 rounded-xl">
-                  <Building2 size={20} />
+          {/* Card 3: Akad Unit - Premium Dark Sync */}
+          <div className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-2xl group shadow-slate-300">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 rounded-full blur-3xl -mr-16 -mt-16 animate-pulse" />
+            <div className="relative z-10">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <div className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">Akad Unit</div>
+                  <div className="text-4xl font-black">{stats.akadUnit}</div>
+                </div>
+                <div className="w-12 h-12 flex items-center justify-center bg-blue-500/20 text-blue-400 rounded-2xl group-hover:rotate-12 transition-transform">
+                  <Building2 size={24} />
                 </div>
               </div>
-              <div className="mt-4">
-                <div className="text-4xl font-bold">{stats.akadUnit}</div>
-                <div className="mt-3 pt-3 border-t border-white/20 flex flex-wrap items-center gap-x-6 gap-y-2">
-                  <div className="flex items-center gap-2">
-                    <LineChart size={14} className="text-white/80" />
-                    <span className="text-xs font-semibold whitespace-nowrap">Rerata CIT: <span className="font-bold">{stats.rerataCIT}</span></span>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <LineChart size={16} className="text-blue-500" />
+                  <span className="text-[11px] font-bold text-slate-400">Rerata CIT: <span className="text-white">{stats.rerataCIT}</span></span>
+                </div>
+                <button 
+                  onClick={() => setModalType('akad')}
+                  className="flex items-center justify-between group/btn bg-white/5 border border-white/10 hover:bg-white/10 px-4 py-3 rounded-xl transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <PieChart size={16} className="text-blue-500" />
+                    <span className="text-[11px] font-black uppercase tracking-widest">Rincian Unit</span>
                   </div>
-                  <button 
-                    onClick={() => setModalType('akad')}
-                    className="flex items-center gap-2 group cursor-pointer hover:bg-white/10 p-1 -m-1 rounded transition-colors"
-                  >
-                    <PieChart size={14} className="text-white/80" />
-                    <span className="text-xs font-semibold whitespace-nowrap">Jumlah Unit: <span className="font-bold underline decoration-white/40 underline-offset-2 group-hover:decoration-white transition-all">50</span></span>
-                  </button>
-                </div>
+                  <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Row 2: Secondary Metrics with "Lihat rincian" */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+        {/* Row 2: Secondary Metrics */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {[
-            { id: 'registrasi', label: 'Registrasi', value: stats.registrasi, trend: '+14%', icon: Users2, color: 'bg-blue-50 text-blue-600', isUp: true },
-            { id: 'nup', label: 'NUP', value: stats.nup, trend: '+5%', icon: FileText, color: 'bg-sky-50 text-sky-600', isUp: true },
-            { id: 'booking', label: 'Booking Fee', value: stats.bookingFee, trend: '-2.5%', icon: CreditCard, color: 'bg-indigo-50 text-indigo-600', isUp: false },
-            { id: 'akadProsesi', label: 'Akad Prosesi', value: stats.akadProsesi, trend: '+12%', icon: ClipboardCheck, color: 'bg-violet-50 text-violet-600', isUp: true }
+            { id: 'registrasi', label: 'Registrasi', value: stats.registrasi, trend: '+14%', icon: Users2, color: 'text-blue-600', bg: 'bg-blue-50' },
+            { id: 'nup', label: 'NUP', value: stats.nup, trend: '+5%', icon: FileText, color: 'text-sky-600', bg: 'bg-sky-50' },
+            { id: 'booking', label: 'Booking Fee', value: stats.bookingFee, trend: '-2.5%', icon: CreditCard, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+            { id: 'akadProsesi', label: 'Akad Prosesi', value: stats.akadProsesi, trend: '+12%', icon: ClipboardCheck, color: 'text-violet-600', bg: 'bg-violet-50' }
           ].map((item, idx) => (
-            <div key={idx} className="card-stat bg-white flex flex-col justify-between min-h-[160px]">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="text-sm font-medium text-slate-500 mb-1">{item.label}</div>
-                  <div className="text-3xl font-bold text-slate-900">{item.value}</div>
-                </div>
-                <div className={`w-10 h-10 flex items-center justify-center rounded-xl ${item.color}`}>
+            <div key={idx} className="bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm hover:shadow-md transition-all group">
+              <div className="flex justify-between items-start mb-4">
+                <div className={`w-10 h-10 flex items-center justify-center rounded-xl ${item.bg} ${item.color} group-hover:scale-110 transition-transform`}>
                   <item.icon size={20} />
                 </div>
-              </div>
-              <div className="mt-auto">
-                {activeTab !== 'Semua' && (
-                  <div className="flex items-center gap-1.5 mb-2 animate-fadeIn">
-                    <span className={`inline-flex items-center justify-center ${item.isUp ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} px-1.5 py-0.5 rounded text-[10px] font-bold`}>{item.trend}</span>
-                    <span className="text-[10px] font-medium text-slate-400">vs Kuartal Sebelumnya</span>
-                  </div>
-                )}
                 {item.id !== 'akadProsesi' && (
-                  <button 
-                    onClick={() => setModalType(item.id)}
-                    className="text-[11px] font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700 transition-colors group"
-                  >
-                    Lihat rincian 
-                    <ExternalLink size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                  <button onClick={() => setModalType(item.id)} className="text-slate-400 hover:text-blue-600 transition-colors">
+                    <ExternalLink size={16} />
                   </button>
                 )}
+              </div>
+              <div>
+                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.label}</div>
+                <div className="text-2xl font-black text-slate-900 tracking-tight">{item.value}</div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Table Container */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-50">
-            <h2 className="text-lg font-bold text-slate-800">Daftar Penjualan</h2>
+        {/* Table Container - Sync with Table Style */}
+        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden mb-10">
+          <div className="p-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Daftar Penjualan</h2>
             <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input 
                 type="text" 
-                placeholder="Cari data pelanggan atau NUP..." 
-                className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                placeholder="Cari data pelanggan..." 
+                className="w-full pl-12 pr-4 py-3.5 text-sm bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-slate-50 border-b border-slate-100">
+              <thead className="bg-slate-50/50 border-y border-slate-100">
                 <tr>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-16 text-center">No</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Nama Pelanggan</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">NUP</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Nama Unit</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right">Nominal</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-right">Komisi Saya</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tanggal Disetujui</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] w-16 text-center">No</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Pelanggan</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Unit</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Nominal</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Komisi</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Disetujui</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {salesData.map((row, idx) => (
                   <React.Fragment key={row.id}>
-                    <tr className={`table-row-main ${expandedRowId === row.id ? 'bg-slate-50/80' : ''}`} onClick={() => setExpandedRowId(expandedRowId === row.id ? null : row.id)}>
-                      <td className="px-6 py-5 text-sm text-slate-500 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          {expandedRowId === row.id ? <ChevronUp size={14} className="text-blue-600" /> : <ChevronDown size={14} />}
+                    <tr className={`group hover:bg-slate-50/50 transition-all cursor-pointer ${expandedRowId === row.id ? 'bg-slate-50/80' : ''}`} onClick={() => setExpandedRowId(expandedRowId === row.id ? null : row.id)}>
+                      <td className="px-8 py-6 text-sm text-slate-500 text-center font-bold tabular-nums">
+                        <div className="flex items-center justify-center gap-3">
+                          <div className={`transition-transform duration-300 ${expandedRowId === row.id ? 'rotate-180 text-blue-600' : 'text-slate-300'}`}>
+                            <ChevronDown size={14} />
+                          </div>
                           {idx + 1}
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-sm font-bold text-slate-800">{row.customer}</td>
-                      <td className="px-6 py-5 text-sm font-medium text-slate-500">{row.nup}</td>
-                      <td className="px-6 py-5">
-                        <div className="flex items-center gap-2">
-                          <span className="status-badge bg-blue-50 text-blue-700 border border-blue-100">{row.unit}</span>
-                          {row.extraUnits > 0 && <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">+{row.extraUnits}</span>}
+                      <td className="px-8 py-6">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-black text-slate-900 tracking-tight">{row.customer}</span>
+                          <span className="text-[11px] font-bold text-slate-400 mt-0.5">{row.nup}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-sm font-bold text-slate-900 text-right">{row.nominal}</td>
-                      <td className="px-6 py-5 text-sm font-bold text-blue-600 text-right">{row.commission}</td>
-                      <td className="px-6 py-5 text-sm font-medium text-slate-500">{row.date}</td>
+                      <td className="px-8 py-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-xl">
+                          <span className="text-[10px] font-black uppercase tracking-wider">{row.unit}</span>
+                          {row.extraUnits > 0 && <span className="text-[10px] font-black text-slate-400">+{row.extraUnits}</span>}
+                        </div>
+                      </td>
+                      <td className="px-8 py-6 text-sm font-black text-slate-900 text-right tabular-nums">{row.nominal}</td>
+                      <td className="px-8 py-6 text-sm font-black text-blue-600 text-right tabular-nums">{row.commission}</td>
+                      <td className="px-8 py-6 text-sm font-bold text-slate-400">{row.date}</td>
                     </tr>
                     {expandedRowId === row.id && (
-                      <tr className="bg-white/50 border-b border-slate-100 animate-fadeIn">
-                        <td colSpan="7" className="px-10 py-10">
-                          <div className="flex items-center gap-2 mb-6"><Rocket size={16} className="text-blue-600" /><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Step & Persentase Komisi</span></div>
-                          <div className="flex flex-wrap gap-10">
+                      <tr className="bg-slate-50/30 border-b border-slate-100 animate-fadeIn">
+                        <td colSpan="6" className="px-12 py-10">
+                          <div className="flex items-center gap-3 mb-8">
+                            <Rocket size={18} className="text-blue-600 animate-bounce" />
+                            <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Aliran Komisi & Timeline</h4>
+                          </div>
+                          <div className="flex flex-wrap gap-8">
                             {row.steps.length > 0 ? row.steps.map((step, sIdx) => (
-                              <div key={sIdx} className="flex-1 bg-white border border-slate-100 p-5 rounded-2xl flex flex-col gap-4 shadow-sm min-w-[250px]">
-                                <div className="flex justify-between items-center"><span className="status-badge bg-blue-600 text-white border-none">{step.label} ({step.percent})</span><span className="text-sm font-bold text-slate-900">{step.value}</span></div>
-                                <div className="flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">{step.user.charAt(0)}</div><div className="flex flex-col"><span className="text-xs font-bold text-slate-700">{step.user}</span><span className="text-[10px] text-slate-400 font-medium">{step.date}</span></div></div>
+                              <div key={sIdx} className="flex-1 min-w-[280px] bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group/step">
+                                <div className="absolute top-0 right-0 w-2 h-full bg-blue-600 opacity-0 group-hover/step:opacity-100 transition-opacity" />
+                                <div className="flex justify-between items-start mb-6">
+                                  <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest">{step.label}</div>
+                                  <div className="text-sm font-black text-slate-900">{step.value}</div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-black text-white">{step.user.charAt(0)}</div>
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-black text-slate-800 tracking-tight">{step.user}</span>
+                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{step.date}</span>
+                                  </div>
+                                  <div className="ml-auto px-2 py-0.5 bg-slate-100 rounded text-[9px] font-black text-slate-500 uppercase">{step.percent}</div>
+                                </div>
                               </div>
-                            )) : <div className="text-sm text-slate-400 italic">Data komisi belum tersedia</div>}
+                            )) : <div className="text-xs font-bold text-slate-400 italic">Data komisi belum diverifikasi oleh sistem.</div>}
                           </div>
                         </td>
                       </tr>
@@ -325,58 +334,69 @@ export default function CapaianSales() {
               </tbody>
             </table>
           </div>
-        </div>
-      </main>
-
-      {/* Dynamic Breakdown Modal */}
-      {modalType && currentModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity animate-fadeIn" onClick={() => setModalType(null)} />
-          <div className="bg-white w-full max-w-2xl rounded-[2rem] shadow-2xl overflow-hidden relative animate-fadeIn">
-            <div className="p-8 lg:p-10">
-              <div className="flex justify-between items-center mb-8">
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{currentModal.title}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="status-badge bg-blue-100 text-blue-700 border border-blue-200 px-3 py-1">Total: {currentModal.total}</span>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setModalType(null)}
-                  className="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-400 rounded-full hover:bg-slate-200 hover:text-slate-700 transition-all shadow-sm"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                {currentModal.items.map((item, idx) => (
-                  <div key={idx} className="group flex flex-col gap-2.5 p-5 bg-slate-50/50 border border-slate-100 rounded-2xl hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-slate-700 tracking-tight">{item.type}</span>
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-[15px] font-bold text-blue-600">{item.count}</span>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase">
-                          {currentModal.unitLabel}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out" 
-                          style={{ width: item.percent }}
-                        />
-                      </div>
-                      <span className="text-[11px] font-bold text-slate-400 group-hover:text-blue-500 transition-colors w-10 text-right">{item.percent}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          
+          <div className="p-8 flex flex-col md:flex-row justify-between items-center bg-slate-50/50 gap-6">
+            <div className="text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
+              Halaman 1 <span className="mx-2 text-slate-200">|</span> Total {salesData.length} Transaksi Terdata
+            </div>
+            <div className="flex gap-2">
+              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-blue-600 transition-all shadow-sm">
+                <ChevronLeft size={18} />
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900 text-white font-black text-sm shadow-xl shadow-slate-200">1</button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white transition-all shadow-sm">2</button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white transition-all shadow-sm">
+                <ChevronRight size={18} />
+              </button>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Dynamic Breakdown Modal - Modern Sync */}
+        {modalType && currentModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xl animate-fadeIn">
+            <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden relative animate-slideUp">
+              <div className="p-10">
+                <div className="flex justify-between items-start mb-10">
+                  <div className="flex flex-col gap-2">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest w-fit">
+                      {currentModal.unitLabel} Breakdown
+                    </div>
+                    <h3 className="text-3xl font-black text-slate-900 tracking-tighter uppercase">{currentModal.title}</h3>
+                    <div className="text-lg font-black text-blue-600 tracking-tight">Total {currentModal.total}</div>
+                  </div>
+                  <button 
+                    onClick={() => setModalType(null)}
+                    className="w-12 h-12 flex items-center justify-center bg-slate-50 text-slate-400 rounded-2xl hover:bg-slate-100 hover:text-slate-900 transition-all"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {currentModal.items.map((item, idx) => (
+                    <div key={idx} className="group p-6 bg-slate-50/50 border border-slate-100 rounded-[2rem] hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-xs font-black text-slate-700 uppercase tracking-widest leading-none">{item.type}</span>
+                        <div className="text-lg font-black text-blue-600 tracking-tight leading-none">{item.count}</div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out" 
+                            style={{ width: item.percent }}
+                          />
+                        </div>
+                        <span className="text-[11px] font-black text-slate-400 w-10 text-right tabular-nums">{item.percent}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

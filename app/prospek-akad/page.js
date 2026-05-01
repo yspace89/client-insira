@@ -13,7 +13,10 @@ import {
   Check,
   UserPlus,
   ClipboardList,
-  Box
+  Box,
+  ChevronDown,
+  Rocket,
+  ArrowRight
 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
@@ -74,7 +77,6 @@ export default function Dashboard() {
       };
     });
     setNupData(data);
-    // Force expanded row for Ahmad Dani (index 6 - status depends on pool)
     setExpandedRowId(7);
   }, []);
 
@@ -123,129 +125,89 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar activeMenu="Prospek Akad" />
 
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        <Header title="Prospek Akad" />
+      <main className="flex-1 p-8 overflow-hidden">
+        <Header title="Prospek Akad Management" />
 
-        {/* Tabs */}
-        <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit mb-8 gap-1">
-          {['Semua', 'Kuartal ini', 'Kuartal sebelumnya'].map(tab => (
-            <button 
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === tab ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+          <div className="flex bg-slate-200/50 p-1 rounded-xl w-fit gap-1">
+            {['Semua', 'Kuartal ini', 'Kuartal sebelumnya'].map(tab => (
+              <button 
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-6 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-lg transition-all ${activeTab === tab ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <button className="bg-slate-900 text-white px-8 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-200">
+            <UserPlus size={20} />
+            Input Lead Baru
+          </button>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-10">
-          <div className="grid grid-cols-2 gap-6">
-            {/* Card 1: Total Prospek Akad */}
-            <div className="card-stat bg-white flex flex-col justify-between">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <div className="text-sm font-medium text-slate-500 mb-1">Total Prospek Akad</div>
-                  <div className="text-3xl font-bold text-slate-900">{totalProspek}</div>
-                </div>
-                <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl">
-                  <Users2 size={20} />
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
+          <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl group-hover:scale-110 transition-transform">
+                <Users2 size={20} />
               </div>
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Lead</div>
             </div>
-            
-            {/* Card 2: Belum Akad */}
-            <div className="card-stat bg-white flex flex-col justify-between">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <div className="text-sm font-medium text-slate-500 mb-1">Belum Akad</div>
-                  <div className="text-3xl font-bold text-slate-900">{belumAkad}</div>
-                </div>
-                <div className="w-10 h-10 flex items-center justify-center bg-orange-50 text-orange-500 rounded-xl">
-                  <Calendar size={20} />
-                </div>
-              </div>
-              <div className="text-[11px] font-medium text-slate-400 mt-2">
-                <span className={`${belumAkadPercent > 70 ? 'text-green-600' : 'text-red-600'} font-bold mr-1`}>{belumAkadPercent}%</span> dari total prospek
-              </div>
-            </div>
+            <div className="text-3xl font-black text-slate-900 tracking-tighter">{totalProspek}</div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            {/* Card 3: Sudah Akad */}
-            <div className="card-stat bg-white flex flex-col justify-between">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <div className="text-sm font-medium text-slate-500 mb-1">Sudah Akad</div>
-                  <div className="text-3xl font-bold text-slate-900">{sudahAkad}</div>
-                </div>
-                <div className="w-10 h-10 flex items-center justify-center bg-green-50 text-green-600 rounded-xl">
-                  <Trophy size={20} />
-                </div>
+          <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-10 h-10 flex items-center justify-center bg-amber-50 text-amber-500 rounded-xl group-hover:scale-110 transition-transform">
+                <Calendar size={20} />
               </div>
-              <div className="flex items-center gap-1.5 mt-2">
-                <span className={`inline-flex items-center justify-center ${sudahAkadPercent > 70 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} px-1.5 py-0.5 rounded text-[10px] font-bold`}>{sudahAkadPercent}%</span>
-                <span className="text-[11px] font-medium text-slate-400">dari total prospek</span>
-              </div>
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Belum Akad</div>
             </div>
+            <div className="text-3xl font-black text-slate-900 tracking-tighter">{belumAkad}</div>
+          </div>
 
-            {/* Card 4: Tingkat Konversi (Animated) */}
-            <div className="card-stat bg-blue-600 text-white border-none shadow-blue-200 relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-300/50 flex flex-col justify-between">
-              {/* Efek Cahaya Menyapu (Shine) */}
-              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
-              
-              {/* Efek Partikel Naik (Floating Bubbles) */}
-              <div className="absolute w-8 h-8 bg-white/20 rounded-full blur-sm right-12 top-10 opacity-0 animate-[floatUp_3s_ease-in-out_infinite]" />
-              <div className="absolute w-12 h-12 bg-white/10 rounded-full blur-md right-4 top-20 opacity-0 animate-[floatUp_4s_ease-in-out_infinite_0.5s]" />
-              <div className="absolute w-6 h-6 bg-white/20 rounded-full blur-sm right-24 top-16 opacity-0 animate-[floatUp_3.5s_ease-in-out_infinite_1s]" />
+          <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-lg transition-all group">
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
+                <Trophy size={20} />
+              </div>
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sudah Akad</div>
+            </div>
+            <div className="text-3xl font-black text-slate-900 tracking-tighter">{sudahAkad}</div>
+          </div>
 
-              <div className="relative z-10 flex flex-col justify-between h-full">
-                <div>
-                  <div className="text-base font-bold text-white mb-0.5">Konversi</div>
-                  <div className="text-[11px] font-medium opacity-80 leading-tight">Booking Fee ke Sudah Akad</div>
-                </div>
-                <div className="text-4xl font-bold mt-2 origin-left">{conversionRate}%</div>
-              </div>
-              
-              {/* Animasi Garis Pertumbuhan */}
-              <div className="absolute right-0 bottom-0 w-1/2 h-2/3 opacity-20 pointer-events-none">
-                <svg viewBox="0 0 100 50" width="100%" height="100%" preserveAspectRatio="none">
-                  <path 
-                    d="M0 45 Q 25 40, 50 25 T 100 5" 
-                    fill="none" 
-                    stroke="white" 
-                    strokeWidth="4" 
-                    className="animate-[dashFlow_2s_linear_infinite]"
-                    strokeDasharray="4 6"
-                  />
-                  {/* Garis solid bayangan */}
-                  <path d="M0 45 Q 25 40, 50 25 T 100 5" fill="none" stroke="white" strokeWidth="1" opacity="0.3" />
-                </svg>
-              </div>
+          <div className="bg-slate-900 rounded-[2rem] p-6 text-white shadow-2xl shadow-blue-200 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 rounded-full blur-3xl -mr-16 -mt-16 animate-pulse" />
+            <div className="relative z-10">
+               <div className="flex justify-between items-start mb-4">
+                  <div className="w-10 h-10 flex items-center justify-center bg-blue-500/20 text-blue-400 rounded-xl">
+                    <Rocket size={20} />
+                  </div>
+                  <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Konversi</div>
+               </div>
+               <div className="text-3xl font-black tracking-tighter">{conversionRate}%</div>
             </div>
           </div>
         </div>
 
-        {/* Table Container */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <h2 className="text-lg font-bold text-slate-800">Daftar Customer Prospek akad</h2>
-              <div className="flex items-center gap-3 w-full md:w-auto">
-                <div className="relative flex-1 md:w-64">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                  <input 
-                    type="text" 
-                    placeholder="Cari nama atau nomor NUP..." 
-                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
+        <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden mb-10">
+          <div className="p-8 flex flex-col lg:flex-row justify-between items-center gap-8">
+            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Lead Database Management</h2>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+              <div className="relative flex-1 sm:w-72">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Cari lead..." 
+                  className="w-full pl-12 pr-4 py-3.5 text-sm bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="relative sm:w-56">
                 <select 
-                  className="pl-4 pr-10 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+                  className="w-full pl-4 pr-10 py-3.5 text-[11px] bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none appearance-none cursor-pointer font-black text-slate-600 uppercase tracking-widest"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -256,68 +218,58 @@ export default function Dashboard() {
                   <option>Proses Akad</option>
                   <option>Sudah Akad</option>
                 </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
               </div>
             </div>
+          </div>
 
-            {/* Jadwal Akad Filter */}
-            <div className="flex flex-wrap items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} className="text-blue-600" />
-                <span className="text-sm font-bold text-slate-700">Filter Jadwal Akad:</span>
+          <div className="px-8 pb-8">
+            <div className="flex flex-wrap items-center gap-4 p-5 bg-slate-50 rounded-[1.5rem] border border-slate-100">
+              <div className="flex items-center gap-3 pr-4 border-r border-slate-200">
+                <Calendar size={18} className="text-blue-600" />
+                <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Filter Jadwal Akad</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <input 
-                    type="date" 
-                    className="px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                </div>
-                <span className="text-slate-400 text-sm font-medium">s/d</span>
-                <div className="flex flex-col gap-1">
-                  <input 
-                    type="date" 
-                    className="px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
-                </div>
+              <div className="flex items-center gap-4">
+                <input type="date" className="bg-transparent text-sm font-black text-slate-700 outline-none" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                <span className="text-slate-300 font-bold">/</span>
+                <input type="date" className="bg-transparent text-sm font-black text-slate-700 outline-none" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                 {(startDate || endDate) && (
-                  <button 
-                    onClick={() => { setStartDate(''); setEndDate(''); }}
-                    className="text-xs font-bold text-red-500 hover:text-red-700 ml-2"
-                  >
-                    Reset
-                  </button>
+                  <button onClick={() => { setStartDate(''); setEndDate(''); }} className="text-[10px] font-black text-red-500 uppercase tracking-widest hover:text-red-700">Clear</button>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-slate-50 border-y border-slate-100">
+              <thead className="bg-slate-50/50">
                 <tr>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-16">No</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-40">Nomor NUP</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-52">Nama Customer</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-44">Status</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider w-40">Jadwal Akad</th>
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Catatan</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center w-16">No</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Identitas NUP</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Customer</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status Lead</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Jadwal Akad</th>
+                  <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Aksi</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-50">
                 {filteredData.map((item, idx) => (
                   <React.Fragment key={item.id}>
                     <tr 
-                      className={`table-row-main ${expandedRowId === item.id ? 'bg-slate-50/80 shadow-inner' : ''}`}
+                      className={`group hover:bg-slate-50/50 transition-all cursor-pointer ${expandedRowId === item.id ? 'bg-slate-50/80' : ''}`}
                       onClick={() => setExpandedRowId(expandedRowId === item.id ? null : item.id)}
                     >
-                      <td className="px-6 py-5 text-sm text-slate-500">{idx + 1}</td>
-                      <td className="px-6 py-5">
+                      <td className="px-8 py-6 text-sm text-slate-300 text-center font-black tabular-nums">
+                        <div className="flex items-center justify-center gap-3">
+                          <div className={`transition-transform duration-300 ${expandedRowId === item.id ? 'rotate-180 text-blue-600' : ''}`}>
+                            <ChevronDown size={14} />
+                          </div>
+                          {idx + 1}
+                        </div>
+                      </td>
+                      <td className="px-8 py-6">
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-900">{item.nup}</span>
+                          <span className="text-sm font-black text-slate-900 tracking-tight uppercase">{item.nup}</span>
                           {(item.status === 'Sudah Pilih Unit - Belum Akad' || item.status === 'Proses Akad' || item.status === 'Sudah Akad') && (
                             <button 
                               onClick={(e) => {
@@ -329,132 +281,60 @@ export default function Dashboard() {
                                   schema: item.schema 
                                 });
                               }}
-                              className="text-[11px] text-blue-600 hover:text-blue-800 font-bold w-fit mt-1 underline decoration-blue-600/30 hover:decoration-blue-800 transition-all"
+                              className="text-[10px] text-blue-600 font-black uppercase tracking-widest w-fit mt-1.5 hover:text-blue-800"
                             >
-                              lihat unit
+                              Detail Unit ({item.units.length})
                             </button>
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-sm font-medium text-slate-700">{item.customer}</td>
-                      <td className="px-6 py-5">
-                        <span className={`status-badge ${
-                          item.status === 'Sudah Pilih Unit - Belum Akad' ? 'bg-purple-100 text-purple-700' : 
-                          item.status === 'Proses Akad' ? 'bg-pink-100 text-pink-700' : 
-                          item.status === 'Bayar Booking Fee' ? 'bg-blue-100 text-blue-700' : 
-                          item.status === 'Bayar NUP' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'
+                      <td className="px-8 py-6 text-sm font-black text-slate-900 uppercase tracking-tight">{item.customer}</td>
+                      <td className="px-8 py-6">
+                        <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${
+                          item.status === 'Sudah Akad' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                          item.status === 'Proses Akad' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-slate-100 text-slate-500 border-slate-200'
                         }`}>
                           {item.status}
                         </span>
                       </td>
-                      <td className="px-6 py-5" onClick={e => e.stopPropagation()}>
-                        {editingAcadId === item.id ? (
-                          <div className="flex flex-col gap-2 min-w-[140px] animate-fadeIn">
-                            <input 
-                              type="date"
-                              value={tempAcadDate}
-                              onChange={e => setTempAcadDate(e.target.value)}
-                              className="w-full text-xs bg-white border border-blue-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-100 outline-none"
-                              autoFocus
-                            />
-                            <div className="flex justify-end gap-1.5">
-                              <button 
-                                onClick={() => setEditingAcadId(null)}
-                                className="px-2 py-1 text-[10px] font-bold text-slate-500 hover:bg-slate-100 rounded"
-                              >
-                                Batal
-                              </button>
-                              <button 
-                                onClick={() => {
-                                  handleAcadDateUpdate(item.id, tempAcadDate);
-                                  setEditingAcadId(null);
-                                }}
-                                className="px-2 py-1 text-[10px] font-bold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm"
-                              >
-                                Simpan
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div 
-                            className="group flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 -m-2 rounded-lg transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                      <td className="px-8 py-6" onClick={e => e.stopPropagation()}>
+                         <div 
+                            className="group/date flex items-center gap-3 cursor-pointer hover:bg-white px-4 py-2 rounded-xl transition-all w-fit"
                             onClick={() => { setEditingAcadId(item.id); setTempAcadDate(item.acadDate || ""); }}
                           >
-                            <span className={`text-sm font-medium ${item.acadDate ? "text-slate-700" : "text-slate-400 italic"}`}>
-                              {item.acadDate ? new Date(item.acadDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : "Belum ditentukan"}
+                            <Calendar size={14} className="text-slate-300 group-hover/date:text-blue-500 transition-colors" />
+                            <span className={`text-[11px] font-black uppercase tracking-widest ${item.acadDate ? "text-slate-900" : "text-slate-300"}`}>
+                              {item.acadDate ? new Date(item.acadDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : "Input Jadwal"}
                             </span>
-                            <Edit2 size={12} className="text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
                           </div>
-                        )}
                       </td>
-                      <td className="px-6 py-5" onClick={e => e.stopPropagation()}>
-                        {editingNoteId === item.id ? (
-                          <div className="flex flex-col gap-2 animate-fadeIn min-w-[200px]">
-                            <textarea
-                              value={editNoteValue}
-                              onChange={e => setEditNoteValue(e.target.value)}
-                              placeholder="Ketik catatan di sini..."
-                              className="w-full text-sm bg-white border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg p-2.5 min-h-[80px] resize-y shadow-sm transition-all outline-none"
-                              autoFocus
-                            />
-                            <div className="flex justify-end gap-2">
-                              <button 
-                                onClick={() => setEditingNoteId(null)}
-                                className="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-700 rounded-md transition-colors"
-                              >
-                                Batal
-                              </button>
-                              <button 
-                                onClick={() => {
-                                  handleNoteChange(item.id, editNoteValue);
-                                  setEditingNoteId(null);
-                                }}
-                                className="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-sm hover:shadow-blue-200 transition-all flex items-center gap-1.5"
-                              >
-                                <Check size={14} /> Simpan
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="group relative flex items-start gap-2 pr-8 cursor-pointer min-h-[2.5rem] rounded-lg hover:bg-slate-50 p-2 -m-2 transition-colors" onClick={() => { setEditingNoteId(item.id); setEditNoteValue(item.notes); }}>
-                            <div className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed w-full">
-                              {item.notes ? item.notes : <span className="text-slate-400 italic">Tambahkan catatan...</span>}
-                            </div>
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingNoteId(item.id);
-                                setEditNoteValue(item.notes);
-                              }}
-                              className="absolute right-1 top-1 p-1.5 text-slate-400 opacity-0 group-hover:opacity-100 hover:text-blue-600 hover:bg-blue-100 rounded-md transition-all"
-                            >
-                              <Edit2 size={14} />
-                            </button>
-                          </div>
-                        )}
+                      <td className="px-8 py-6 text-right">
+                        <button className="px-5 py-2.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-lg shadow-slate-200">
+                          Timeline
+                        </button>
                       </td>
                     </tr>
                     
                     {expandedRowId === item.id && (
-                      <tr className="bg-white/50 border-b border-slate-100 animate-fadeIn">
-                        <td colSpan="6" className="px-8 py-8">
-                          <div className="flex flex-col md:flex-row gap-6">
-                            {[
-                              { label: 'Registrasi', dateLabel: 'Tanggal Registrasi', date: item.regDate, icon: UserPlus, color: 'bg-indigo-50 text-indigo-600', show: true },
-                                  { label: 'NUP', dateLabel: 'Tanggal Bayar', date: item.nupDate, icon: ClipboardList, color: 'bg-amber-50 text-amber-600', show: true },
-                                  { label: 'Booking Fee', dateLabel: 'Tanggal Bayar', date: item.bookingFeeDate, icon: Box, color: 'bg-blue-50 text-blue-600', show: item.status !== 'Bayar NUP' }
-                                ].filter(card => card.show).map((card, i) => (
-                                  <div key={i} className="flex-1 bg-white border border-slate-100 p-5 rounded-2xl flex items-center gap-4 shadow-sm min-w-[280px]">
-                                    <div className={`w-12 h-12 flex items-center justify-center rounded-xl ${card.color}`}>
-                                      <card.icon size={24} />
-                                    </div>
-                                    <div className="flex flex-col">
-                                      <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">{card.label}</span>
-                                      <span className="text-sm font-bold text-slate-800 mb-0.5">{item.customer} - MA, Propertilogi</span>
-                                      <span className="text-xs text-slate-500 font-medium">{card.dateLabel}: {card.date}</span>
-                                    </div>
+                      <tr className="bg-slate-50/50 border-b border-slate-100 animate-fadeIn">
+                        <td colSpan="6" className="px-12 py-10">
+                          <div className="flex flex-col md:flex-row gap-8">
+                             {[
+                                { label: 'Registrasi', dateLabel: 'Registered', date: item.regDate, icon: UserPlus, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+                                { label: 'NUP System', dateLabel: 'Paid', date: item.nupDate, icon: ClipboardList, color: 'text-amber-600', bg: 'bg-amber-50' },
+                                { label: 'Booking Fee', dateLabel: 'Secured', date: item.bookingFeeDate, icon: Box, color: 'text-blue-600', bg: 'bg-blue-50', show: item.status !== 'Bayar NUP' }
+                             ].filter(c => c.show !== false).map((card, i) => (
+                               <div key={i} className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group/card hover:shadow-md transition-all">
+                                  <div className={`w-14 h-14 flex items-center justify-center rounded-2xl ${card.bg} ${card.color} group-hover/card:scale-110 transition-transform`}>
+                                    <card.icon size={28} />
                                   </div>
-                                ))}
+                                  <div className="flex flex-col">
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">{card.label}</span>
+                                    <span className="text-sm font-black text-slate-900 tracking-tight">{item.customer}</span>
+                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">{card.dateLabel}: {card.date}</span>
+                                  </div>
+                               </div>
+                             ))}
                           </div>
                         </td>
                       </tr>
@@ -464,64 +344,8 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
-
-          <div className="p-6 flex flex-col md:flex-row justify-between items-center bg-slate-50 gap-4">
-            <div className="text-xs font-semibold text-slate-500 tracking-wide">
-              Menampilkan {filteredData.length} dari 1.248 NUP
-            </div>
-            <div className="flex gap-1.5">
-              <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-white hover:shadow-sm transition-all">
-                <ChevronLeft size={16} />
-              </button>
-              <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-blue-600 text-white font-bold text-sm shadow-md shadow-blue-200">1</button>
-              <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 font-bold text-sm hover:bg-white transition-all">2</button>
-              <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 font-bold text-sm hover:bg-white transition-all">3</button>
-              <div className="px-2 flex items-center text-slate-400">...</div>
-              <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-white hover:shadow-sm transition-all">
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
         </div>
       </main>
-
-      {/* Modal */}
-      {selectedUnitsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity animate-fadeIn" onClick={() => setSelectedUnitsModal(null)} />
-          <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative animate-fadeIn">
-            <div className="p-8">
-                <div className="flex flex-col gap-1.5 mb-6">
-                  <h3 className="text-lg font-bold text-slate-900 tracking-tight">
-                    {selectedUnitsModal.nup} - {selectedUnitsModal.customer}
-                  </h3>
-                  <div className="flex flex-col text-sm font-semibold text-slate-600">
-                    <span>Total Unit: {selectedUnitsModal.units.length}</span>
-                    <span>Skema Pembayaran : {selectedUnitsModal.schema}</span>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setSelectedUnitsModal(null)}
-                  className="absolute top-8 right-8 w-8 h-8 flex items-center justify-center bg-slate-100 text-slate-400 rounded-full hover:bg-slate-200 hover:text-slate-700 transition-all shadow-sm"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-              
-              <div className="px-8 pb-8 space-y-2 max-h-[50vh] overflow-y-auto">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Daftar Unit:</div>
-                {selectedUnitsModal.units.map((unit, i) => (
-                  <div key={i} className="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-3 group hover:border-blue-200 hover:bg-blue-50/30 transition-all cursor-default">
-                    <div className="w-6 h-6 flex-shrink-0 flex items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 text-[11px] font-bold group-hover:border-blue-300 group-hover:text-blue-600 transition-all">
-                      {i + 1}
-                    </div>
-                    <span className="font-bold text-sm text-slate-700 group-hover:text-blue-800 transition-colors">{unit}</span>
-                  </div>
-                ))}
-              </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

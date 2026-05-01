@@ -112,9 +112,9 @@ export default function KunjunganSitePage() {
   const totalLeads = visits.length;
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 flex-col md:flex-row">
       <Sidebar activeMenu="Kunjungan Site" />
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4 md:p-8 overflow-hidden">
         <Header title="Monitoring Kunjungan Site">
           <button 
             onClick={() => setIsAddModalOpen(true)}
@@ -178,23 +178,23 @@ export default function KunjunganSitePage() {
         {/* Table Container */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="p-6 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
               <h2 className="text-lg font-bold text-slate-800">Daftar Kunjungan Site</h2>
-              <div className="flex items-center gap-4 w-full md:w-auto">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
                 {/* Moved Tabs Filter here */}
-                <div className="flex bg-slate-200/50 p-1 rounded-xl gap-1">
+                <div className="flex bg-slate-200/50 p-1 rounded-xl gap-1 overflow-x-auto no-scrollbar">
                   {['Semua', 'Sudah Berkunjung', 'Belum Berkunjung'].map(tab => (
                     <button 
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all ${activeTab === tab ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                      className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${activeTab === tab ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                       {tab}
                     </button>
                   ))}
                 </div>
 
-                <div className="relative flex-1 md:w-64">
+                <div className="relative flex-1 sm:w-64">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input 
                     type="text" 
