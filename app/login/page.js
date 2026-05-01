@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Lock, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -15,6 +16,22 @@ export default function LoginPage() {
     setIsLoading(true);
     setError('');
     
+    // Manual check for specific feedback since we use mock credentials
+    const mockEmail = "admin@yspace.id";
+    const mockPassword = "YSpaceSecure2026!";
+
+    if (email !== mockEmail) {
+      setError('Email address not registered.');
+      setIsLoading(false);
+      return;
+    }
+
+    if (password !== mockPassword) {
+      setError('Incorrect password. Please try again.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const result = await signIn("credentials", {
         email,
@@ -23,7 +40,7 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError('Invalid email or password.');
+        setError('Authentication failed. Please check your credentials.');
         setIsLoading(false);
       } else {
         window.location.href = '/';
@@ -53,7 +70,7 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400 animate-in fade-in zoom-in-95 duration-300">
             <AlertCircle size={16} />
             <span className="text-sm font-medium">{error}</span>
           </div>
@@ -64,8 +81,8 @@ export default function LoginPage() {
             <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">
               Email Address
             </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-600">
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-600 group-focus-within:text-blue-500 transition-colors">
                 <Mail size={18} strokeWidth={1.5} />
               </div>
               <input
@@ -88,18 +105,25 @@ export default function LoginPage() {
                 Forgot?
               </a>
             </div>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-600">
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-600 group-focus-within:text-blue-500 transition-colors">
                 <Lock size={18} strokeWidth={1.5} />
               </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl py-4 pl-12 pr-5 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all text-sm"
+                className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all text-sm"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-slate-300 transition-colors"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 

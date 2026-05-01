@@ -18,22 +18,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: "1",
           name: "Admin Y Space",
           email: "admin@yspace.id",
-          // Hashed version of 'YSpaceSecure2026!'
           password: "$2a$10$X9qW1rY.U7G1E5J4R3tK2u9L6m0P1o2N3a4B5v6C7d8E9f0G1h2I3", 
         };
 
-        if (credentials.email !== mockUser.email) return null;
+        if (credentials.email !== mockUser.email) {
+          throw new Error("User not found");
+        }
 
         const isPasswordCorrect = await bcrypt.compare(
           credentials.password,
           mockUser.password
         );
 
-        if (isPasswordCorrect) {
-          return { id: mockUser.id, name: mockUser.name, email: mockUser.email };
+        if (!isPasswordCorrect) {
+          throw new Error("Incorrect password");
         }
 
-        return null;
+        return { id: mockUser.id, name: mockUser.name, email: mockUser.email };
       }
     })
   ],
