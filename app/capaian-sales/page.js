@@ -12,7 +12,6 @@ import {
   Users2,
   FileText,
   CreditCard,
-  Calendar,
   Building2,
   ChevronLeft,
   ChevronRight,
@@ -22,7 +21,8 @@ import {
   PieChart,
   ExternalLink,
   Eye,
-  Info
+  Info,
+  Calendar
 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
@@ -93,7 +93,7 @@ export default function CapaianSales() {
   };
 
   const salesData = [
-    { id: 1, customer: 'Sapto Pratolo', nup: 'INS-0326039', units: ['A15-20 - Single Premiere', 'B12-05 - Couple', 'C01-10 - Family', 'D02-04 - Single'], nominal: 'Rp 1.119.500.000', commission: 'Rp 76.644.893', date: '23 Apr 2026', steps: [{ label: 'Daftar', percent: '1.45%', value: 'Rp 1.627.590', user: 'Zulkipli Nasution', date: '28 Mar 2026' }, { label: 'NUP', percent: '2.675%', value: 'Rp 2.441.385', user: 'Zulkipli Nasution', date: '28 Mar 2026' }, { label: 'Booking Fee', percent: '3.125%', value: 'Rp 3.575.918', user: 'Zulkipli Nasution', date: '28 Mar 2026' }] },
+    { id: 1, customer: 'Sapto Pratolo', nup: 'INS-0326039', units: ['A15-20 - Single Premiere', 'B12-05 - Couple', 'C01-10 - Family', 'D02-04 - Single'], nominal: 'Rp 1.119.500.000', commission: 'Rp 76.644.893', date: '23 Apr 2026', steps: [{ label: 'Daftar', percent: '2%', value: 'Rp 1.627.590', user: 'Zulkipli Nasution', date: '28 Mar 2026' }, { label: 'NUP', percent: '5%', value: 'Rp 2.441.385', user: 'Zulkipli Nasution', date: '28 Mar 2026' }, { label: 'Booking Fee', percent: '10%', value: 'Rp 3.575.918', user: 'Zulkipli Nasution', date: '28 Mar 2026' }] },
     { id: 2, customer: 'Drs. Suro Jouhari, MM', nup: 'INS-0326038', units: ['A17-17 - Single'], nominal: 'Rp 39.800.000', commission: 'Rp 2.662.620', date: '06 Apr 2026', steps: [] },
     { id: 3, customer: 'Harum Kusumawati', nup: 'INS-0326037', units: ['B10-128 - Single'], nominal: 'Rp 39.800.000', commission: 'Rp 4.636.700', date: '22 Apr 2026', steps: [] },
     { id: 4, customer: 'Hartanti Desmuti, SE', nup: 'INS-0326035', units: ['A19-84 - Single', 'B05-12 - Single', 'C02-01 - Couple'], nominal: 'Rp 169.600.000', commission: 'Rp 18.108.400', date: '30 Apr 2026', steps: [] },
@@ -118,7 +118,7 @@ export default function CapaianSales() {
       <main className="flex-1 p-6 lg:p-8">
         <Header title="Laporan Performa Sales" />
 
-        {/* Action Header - More Compact */}
+        {/* Action Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <div className="flex bg-slate-200/40 p-1 rounded-xl w-fit gap-1 backdrop-blur-sm">
             {['Semua', 'Kuartal ini', 'Kuartal Sebelumnya'].map(tab => (
@@ -137,7 +137,7 @@ export default function CapaianSales() {
           </button>
         </div>
 
-        {/* Row 1: Primary Metrics - Compact */}
+        {/* Row 1: Primary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
           <div className={`card-stat bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-5 ${cardRound}`}>
             <div className="flex justify-between items-start mb-1">
@@ -204,7 +204,7 @@ export default function CapaianSales() {
           </div>
         </div>
 
-        {/* Row 2: Secondary Metrics - Compact */}
+        {/* Row 2: Secondary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
           {[
             { id: 'registrasi', label: 'Registrasi', value: stats.registrasi, trend: '+14%', icon: Users2, color: 'bg-blue-50 text-blue-600', isUp: true },
@@ -244,7 +244,7 @@ export default function CapaianSales() {
           ))}
         </div>
 
-        {/* Table Container - Compact & Classy */}
+        {/* Table Container */}
         <div className={`bg-white ${cardRound} ${cardShadow} border border-slate-100/50 overflow-hidden`}>
           <div className="px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-50">
             <h2 className="text-lg font-bold text-slate-800 tracking-tight flex items-center gap-2">
@@ -263,31 +263,37 @@ export default function CapaianSales() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse">
               <thead className="bg-slate-50/50 border-b border-slate-100">
-                <tr>
-                  <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-12 text-center">#</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer & NUP</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unit Properti</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Detail Finansial</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Timeline</th>
+                <tr className="bg-slate-50/30">
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center w-20">No</th>
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer & NUP</th>
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unit Properti</th>
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Detail Finansial</th>
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Disetujui</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50/60">
                 {salesData.map((row, idx) => (
                   <React.Fragment key={row.id}>
-                    <tr className={`table-row-main group hover:bg-slate-50/50 transition-colors cursor-pointer ${expandedRowId === row.id ? 'bg-blue-50/20' : ''}`} onClick={() => setExpandedRowId(expandedRowId === row.id ? null : row.id)}>
-                      <td className="px-6 py-4 text-xs text-slate-300 text-center font-bold">
-                        {idx + 1}
+                    <tr 
+                      className={`group hover:bg-slate-50/40 transition-all cursor-pointer ${expandedRowId === row.id ? 'bg-slate-50/60' : ''}`} 
+                      onClick={() => setExpandedRowId(expandedRowId === row.id ? null : row.id)}
+                    >
+                      <td className="px-8 py-6 text-xs text-slate-300 text-center font-bold tabular-nums">
+                        <div className="flex items-center justify-center gap-3">
+                          <ChevronDown size={14} className={`transition-transform duration-300 ${expandedRowId === row.id ? 'rotate-180 text-blue-500' : 'text-slate-200'}`} />
+                          {String(idx + 1).padStart(2, '0')}
+                        </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-8 py-6">
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-800 tracking-tight">{row.customer}</span>
+                          <span className="text-sm font-bold text-slate-800 tracking-tight group-hover:text-blue-600 transition-colors uppercase">{row.customer}</span>
                           <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">{row.nup}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-8 py-6">
                         <div className="flex flex-col items-start gap-1.5">
                           <div className="flex flex-wrap gap-1.5">
                             {row.units.slice(0, 2).map((unit, uIdx) => (
@@ -307,41 +313,42 @@ export default function CapaianSales() {
                           )}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="px-8 py-6 text-right">
                         <div className="flex flex-col gap-0.5">
                           <div className="flex flex-col items-end">
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter block leading-none mb-0.5">Pembelian</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter block leading-none mb-0.5">Total Transaksi</span>
                             <span className="text-sm font-bold text-slate-900 tracking-tight leading-tight">{row.nominal}</span>
                           </div>
-                          <span className="text-[10px] font-bold text-blue-600 tracking-tight leading-tight">Komisi: {row.commission}</span>
+                          <span className="text-[10px] font-bold text-blue-600 tracking-tight leading-tight">Total Komisi: {row.commission}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-                           <Calendar size={13} className="text-slate-300" />
+                      <td className="px-8 py-6">
+                        <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">
                            {row.date}
-                        </div>
+                        </span>
                       </td>
                     </tr>
                     {expandedRowId === row.id && (
                       <tr className="bg-slate-50/30 border-b border-slate-100/50 animate-fadeIn">
                         <td colSpan="5" className="px-10 py-8">
-                          <div className="flex items-center gap-2 mb-6">
-                            <Rocket size={16} className="text-blue-500" />
+                          <div className="flex items-center gap-2 mb-6 text-blue-500">
+                            <Rocket size={16} />
                             <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Milestone Sales</span>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                             {row.steps.length > 0 ? row.steps.map((step, sIdx) => (
                               <div key={sIdx} className="bg-white border border-slate-100 p-4 rounded-xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-all border-l-4 border-l-blue-500">
                                 <div className="flex justify-between items-center">
-                                  <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] font-bold rounded uppercase tracking-wider">{step.label}</span>
+                                  <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] font-bold rounded uppercase tracking-wider">
+                                    {step.label} ({step.percent})
+                                  </span>
                                   <span className="text-xs font-bold text-slate-900">{step.value}</span>
                                 </div>
                                 <div className="flex items-center gap-3 pt-2 border-t border-slate-50">
                                   <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-[10px] font-bold text-slate-400 shadow-inner">{step.user.charAt(0)}</div>
                                   <div className="flex flex-col">
                                     <span className="text-xs font-bold text-slate-700">{step.user}</span>
-                                    <span className="text-[9px] text-slate-400 font-bold tracking-tight">{step.date}</span>
+                                    <span className="text-[9px] text-slate-400 font-bold tracking-tight uppercase">{step.date}</span>
                                   </div>
                                 </div>
                               </div>
@@ -360,20 +367,20 @@ export default function CapaianSales() {
             </table>
           </div>
 
-          <div className="px-6 py-5 flex flex-col md:flex-row justify-between items-center bg-slate-50/30 gap-4 border-t border-slate-50">
-            <div className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">Showing {salesData.length} entries</div>
-            <div className="flex gap-1.5">
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-white transition-all"><ChevronLeft size={16} /></button>
-              {[1, 2, 3].map(page => (
-                <button key={page} className={`w-8 h-8 flex items-center justify-center rounded-lg font-bold text-xs transition-all ${page === 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'border border-slate-200 text-slate-400 hover:bg-white'}`}>{page}</button>
-              ))}
-              <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-white transition-all"><ChevronRight size={16} /></button>
+          <div className="p-8 flex flex-col md:flex-row justify-between items-center bg-slate-50/40 gap-6 border-t border-slate-50">
+            <div className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+              Halaman 01 <span className="mx-2 opacity-20">|</span> Total {salesData.length} data
+            </div>
+            <div className="flex gap-2">
+              <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 text-slate-300 hover:text-blue-500 transition-all"><ChevronLeft size={16} /></button>
+              <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 text-white font-bold text-xs shadow-xl shadow-slate-200">1</button>
+              <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 text-slate-400 hover:bg-white transition-all"><ChevronRight size={16} /></button>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Breakdown Modal - More Compact */}
+      {/* Breakdown Modal */}
       {modalType && currentModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md transition-opacity animate-fadeIn" onClick={() => setModalType(null)} />
@@ -410,7 +417,7 @@ export default function CapaianSales() {
         </div>
       )}
 
-      {/* Unit Detail Modal - More Compact */}
+      {/* Unit Detail Modal */}
       {unitModalCustomer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md transition-opacity animate-fadeIn" onClick={() => setUnitModalCustomer(null)} />
@@ -418,8 +425,8 @@ export default function CapaianSales() {
             <div className="p-8">
               <div className="flex justify-between items-center mb-6">
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="text-lg font-bold text-slate-900 tracking-tight">Daftar Unit</h3>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{unitModalCustomer.customer}</span>
+                  <h3 className="text-lg font-bold text-slate-800 tracking-tight">{unitModalCustomer.customer}</h3>
+                  <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">{unitModalCustomer.nup}</span>
                 </div>
                 <button onClick={() => setUnitModalCustomer(null)} className="w-8 h-8 flex items-center justify-center bg-slate-50 text-slate-400 rounded-lg hover:bg-red-50 hover:text-red-500 transition-all"><X size={18} /></button>
               </div>
@@ -429,8 +436,8 @@ export default function CapaianSales() {
                   <span>{unitModalCustomer.units.length} Unit</span>
                 </div>
                 {unitModalCustomer.units.map((unit, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3.5 bg-slate-50 border border-slate-100 rounded-xl hover:bg-white hover:shadow-sm transition-all">
-                    <span className="w-6 h-6 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">{idx + 1}</span>
+                  <div key={idx} className="flex items-center gap-3 p-3.5 bg-white border border-slate-100 rounded-xl hover:shadow-sm transition-all">
+                    <span className="w-6 h-6 rounded-lg bg-slate-50 text-slate-400 flex items-center justify-center text-[10px] font-bold">{String(idx + 1).padStart(2, '0')}</span>
                     <span className="text-xs font-bold text-slate-700 tracking-tight">{unit}</span>
                   </div>
                 ))}
