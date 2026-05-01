@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
 import { signIn } from "next-auth/react";
 
@@ -45,20 +44,10 @@ export default function LoginPage() {
 
       <div className="relative z-10 w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="flex flex-col items-center mb-10">
-          <div className="mb-8 p-1">
-            <Image 
-              src="/y-space-logo.png" 
-              alt="Y Space" 
-              width={56} 
-              height={56}
-              className="drop-shadow-2xl"
-              priority
-            />
-          </div>
-          <h1 className="text-[28px] font-bold text-white tracking-tight text-center">
+          <h1 className="text-[32px] font-bold text-white tracking-tight text-center">
             Sign In to Exploration Space
           </h1>
-          <p className="text-slate-500 mt-2 text-sm text-center font-medium">
+          <p className="text-slate-500 mt-2.5 text-sm text-center font-medium">
             Enter your credentials to manage the ecosystem.
           </p>
         </div>
