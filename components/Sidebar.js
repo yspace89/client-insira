@@ -25,6 +25,7 @@ import {
 
 export default function Sidebar({ activeMenu }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const menuItems = [
@@ -151,7 +152,7 @@ export default function Sidebar({ activeMenu }) {
           )}
           {!isCollapsed && (
             <button 
-              onClick={() => signOut({ callbackUrl: "/login" })}
+              onClick={() => setShowLogoutModal(true)}
               className="ml-auto p-1.5 text-slate-300 hover:text-red-400 transition-all"
               title="Logout"
             >
@@ -160,6 +161,44 @@ export default function Sidebar({ activeMenu }) {
           )}
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm animate-in fade-in duration-300"
+            onClick={() => setShowLogoutModal(false)}
+          ></div>
+          
+          {/* Modal Content */}
+          <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8 border border-slate-100 animate-in zoom-in-95 duration-300">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
+                <LogOut size={28} className="text-red-500" />
+              </div>
+              
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Konfirmasi Keluar</h3>
+              <p className="text-slate-500 text-sm mb-8">Apakah Anda yakin ingin mengakhiri sesi ini? Anda harus login kembali untuk mengakses data.</p>
+              
+              <div className="grid grid-cols-2 gap-3 w-full">
+                <button 
+                  onClick={() => setShowLogoutModal(false)}
+                  className="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-2xl transition-all"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className="px-6 py-3.5 bg-red-500 hover:bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-red-500/20"
+                >
+                  Ya, Keluar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
