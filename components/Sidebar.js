@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { signOut } from "next-auth/react";
 import { 
   Home,
   DollarSign,
@@ -149,7 +150,11 @@ export default function Sidebar({ activeMenu }) {
             </div>
           )}
           {!isCollapsed && (
-            <button className="ml-auto p-1.5 text-slate-300 hover:text-red-400 transition-all">
+            <button 
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="ml-auto p-1.5 text-slate-300 hover:text-red-400 transition-all"
+              title="Logout"
+            >
               <LogOut size={14} />
             </button>
           )}
