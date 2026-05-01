@@ -16,23 +16,8 @@ export default function LoginPage() {
     setIsLoading(true);
     setError('');
     
-    // Manual check for specific feedback since we use mock credentials
-    const mockEmail = "admin@yspace.id";
-    const mockPassword = "YSpaceSecure2026!";
-
-    if (email !== mockEmail) {
-      setError('Email address not registered.');
-      setIsLoading(false);
-      return;
-    }
-
-    if (password !== mockPassword) {
-      setError('Incorrect password. Please try again.');
-      setIsLoading(false);
-      return;
-    }
-
     try {
+      // Logic pengecekan dipindah sepenuhnya ke Server untuk keamanan maksimal
       const result = await signIn("credentials", {
         email,
         password,
@@ -40,20 +25,24 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError('Authentication failed. Please check your credentials.');
+        // Pesan error tetap dibuat agar user nyaman, tapi logic-nya aman di server
+        if (result.error === "CredentialsSignin") {
+          setError('Invalid credentials. Access denied.');
+        } else {
+          setError('Authentication failed. Please try again.');
+        }
         setIsLoading(false);
       } else {
         window.location.href = '/';
       }
     } catch (err) {
-      setError('An error occurred during authentication.');
+      setError('An unexpected error occurred.');
       setIsLoading(false);
     }
   };
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#020617] p-6 selection:bg-blue-500/30">
-      {/* Background - Very Subtle Mesh Gradient */}
       <div className="fixed inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-900/10 rounded-full blur-[120px]"></div>
