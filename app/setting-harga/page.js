@@ -356,7 +356,7 @@ export default function SettingHarga() {
                   ))}
                   {activeCfg.discountMode !== 'multiple' && (
                     <button onClick={() => addTier(activeConfigUnit)} className="w-full py-4 border-2 border-dashed border-slate-200 rounded-[1.5rem] text-[10px] font-bold text-slate-400 hover:bg-white hover:border-blue-300 hover:text-blue-500 transition-all flex items-center justify-center gap-2">
-                      <協 size={16} /> TAMBAH TIER DISKON
+                      <Plus size={16} /> TAMBAH TIER DISKON
                     </button>
                   )}
                 </div>
