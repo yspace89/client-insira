@@ -11,7 +11,7 @@ export default function Home() {
     {
       id: 'prospek-akad',
       title: 'Prospek Akad',
-      desc: 'Pantau pergerakan data NUP, Booking Fee, dan kelengkapan skema menuju konversi Akad.',
+      desc: 'Monitoring data NUP, Booking Fee, dan skema konversi akad secara real-time.',
       icon: Rocket,
       color: 'blue',
       href: '/prospek-akad',
@@ -20,7 +20,7 @@ export default function Home() {
     {
       id: 'kunjungan-site',
       title: 'Kunjungan Site',
-      desc: 'Monitoring jadwal dan kehadiran leads di lokasi proyek secara real-time.',
+      desc: 'Kelola jadwal kunjungan dan kehadiran leads di lokasi proyek dengan efisien.',
       icon: MapPin,
       color: 'emerald',
       href: '/kunjungan-site',
@@ -29,7 +29,7 @@ export default function Home() {
     {
       id: 'capaian-sales',
       title: 'Capaian Sales',
-      desc: 'Analisis performa penjualan dan perolehan unit per periode.',
+      desc: 'Analisis performa penjualan, KPI sales, dan perolehan unit secara mendalam.',
       icon: DollarSign,
       color: 'amber',
       href: '/capaian-sales',
@@ -38,7 +38,7 @@ export default function Home() {
     {
       id: 'tim',
       title: 'Anggota Tim',
-      desc: 'Manajemen data sales agent dan monitoring produktivitas tim.',
+      desc: 'Manajemen database sales agent dan pantau produktivitas seluruh tim.',
       icon: Users,
       color: 'indigo',
       href: '/anggota-tim',
@@ -47,7 +47,7 @@ export default function Home() {
     {
       id: 'setting-harga',
       title: 'Setting Harga',
-      desc: 'Konfigurasi master price dan skema promo unit properti.',
+      desc: 'Konfigurasi harga master, skema promo, dan simulasi angsuran unit.',
       icon: Calculator,
       color: 'rose',
       href: '/setting-harga',
@@ -56,87 +56,93 @@ export default function Home() {
     {
       id: 'agensi',
       title: 'Manajemen Agensi',
-      desc: 'Kelola data partner agensi dan komisi penjualan secara terpusat.',
+      desc: 'Pusat data partner agensi eksternal dan pengelolaan komisi penjualan.',
       icon: Building2,
       color: 'slate',
-      href: '#',
-      active: false
+      href: '/manajemen-agensi',
+      active: true
     }
   ];
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50/50">
       <Sidebar activeMenu="Beranda" />
 
-      <main className="flex-1 p-8 overflow-hidden">
+      <main className="flex-1 p-6 md:p-10 overflow-hidden">
         <Header title="Beranda" />
 
-        <div className="max-w-6xl">
-          {/* Welcome Banner with Mesh Gradient */}
-          <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl mb-12 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-32 -mt-32 animate-pulse" />
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px] -ml-20 -mb-20" />
+        <div className="max-w-6xl mx-auto">
+          {/* Welcome Banner - Elegant Refinement */}
+          <div className="bg-slate-900 rounded-[2rem] p-10 md:p-14 shadow-2xl mb-12 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[100px] -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-[250px] h-[250px] bg-indigo-600/5 rounded-full blur-[80px] -ml-20 -mb-20" />
             
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-8">
-              <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
-                  Research Space Hub
+            <div className="relative z-10 flex flex-col md:flex-row justify-between items-center md:items-end gap-10">
+              <div className="flex-1 text-center md:text-left">
+                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                  Ekosistem Research Space
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter leading-tight uppercase">
-                  Selamat Datang,<br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Y-Space Admin</span>
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
+                  Selamat Datang Kembali,<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Administrator Y-Space</span>
                 </h2>
                 <p className="text-slate-400 text-lg max-w-xl leading-relaxed font-medium">
-                  Optimalkan manajemen aset dan performa tim melalui ekosistem digital terintegrasi Research Space.
+                  Monitor dan kelola ekosistem properti Anda dengan presisi melalui modul terintegrasi.
                 </p>
               </div>
               
-              <div className="hidden lg:flex flex-col items-end text-right">
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Status Sistem</div>
-                <div className="text-xl font-black text-white tracking-tight uppercase">Operational</div>
-                <div className="mt-4 flex -space-x-2">
-                  {[1,2,3,4].map(i => (
-                    <img key={i} src={`https://ui-avatars.com/api/?name=U${i}&background=random&color=fff`} className="w-8 h-8 rounded-full border-2 border-slate-900" alt="user" />
-                  ))}
-                  <div className="w-8 h-8 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">+12</div>
+              <div className="hidden lg:flex flex-col items-end text-right shrink-0">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[1.5rem] p-6 shadow-xl">
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Performa Sistem</div>
+                  <div className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
+                    99.8% 
+                    <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold border border-emerald-500/20 uppercase tracking-wide">Stabil</span>
+                  </div>
+                  <div className="mt-5 flex -space-x-1.5">
+                    {[1,2,3,4].map(i => (
+                      <img key={i} src={`https://ui-avatars.com/api/?name=U${i}&background=f1f5f9&color=64748b`} className="w-8 h-8 rounded-full border-2 border-slate-900" alt="user" />
+                    ))}
+                    <div className="w-8 h-8 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">+12</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mb-8">
-            <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-8 px-2 flex items-center gap-4">
-              Pilih Modul Management
-              <div className="h-px flex-1 bg-slate-200" />
-            </h3>
+          <div className="mb-10">
+            <div className="flex items-center gap-4 mb-10 px-2">
+              <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">
+                Modul Manajemen
+              </h3>
+              <div className="h-px flex-1 bg-slate-200/60" />
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {modules.map((mod) => (
                 <Link 
                   key={mod.id} 
                   href={mod.href} 
                   className={`group relative ${!mod.active && 'pointer-events-none opacity-60'}`}
                 >
-                  <div className={`h-full bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-2 flex flex-col relative overflow-hidden`}>
+                  <div className={`h-full bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1.5 flex flex-col relative overflow-hidden`}>
                     
-                    {/* Hover Effect Light */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     <div className="relative z-10">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm ${
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-105 shadow-sm ${
                         mod.active 
-                        ? `bg-${mod.color}-50 text-${mod.color}-600 group-hover:bg-${mod.color}-600 group-hover:text-white` 
-                        : 'bg-slate-100 text-slate-400'
+                        ? `bg-${mod.color}-50 text-${mod.color}-500 group-hover:bg-${mod.color}-500 group-hover:text-white` 
+                        : 'bg-slate-50 text-slate-300'
                       }`}>
-                        <mod.icon size={28} />
+                        <mod.icon size={26} strokeWidth={1.5} />
                       </div>
                       
-                      <div className="flex justify-between items-start mb-3">
-                        <h4 className="text-xl font-black text-slate-900 tracking-tight uppercase leading-none">{mod.title}</h4>
+                      <div className="flex justify-between items-center mb-3">
+                        <h4 className="text-lg font-bold text-slate-800 tracking-tight">{mod.title}</h4>
                         {mod.active && (
-                          <div className="text-blue-600 opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0">
-                            <ArrowRight size={20} />
+                          <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
+                            <ArrowRight size={18} />
                           </div>
                         )}
                       </div>
@@ -146,8 +152,8 @@ export default function Home() {
                       </p>
                       
                       {!mod.active && (
-                        <div className="mt-6 inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-black rounded-full uppercase tracking-wider">
-                          Coming Soon
+                        <div className="mt-6 inline-flex items-center gap-1.5 px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg uppercase tracking-wider border border-slate-100">
+                          Segera Hadir
                         </div>
                       )}
                     </div>
@@ -157,14 +163,15 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Quick Action Footer */}
-          <div className="bg-blue-600 rounded-[2rem] p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl shadow-blue-200/50">
-            <div className="text-center md:text-left">
-              <h4 className="text-xl font-black text-white uppercase tracking-tight mb-1">Butuh Bantuan Teknis?</h4>
-              <p className="text-blue-100 text-sm font-medium opacity-80">Hubungi tim developer Research Space untuk bantuan integrasi.</p>
+          {/* Quick Action - Elegant Dark Footer */}
+          <div className="bg-slate-900 rounded-[2.5rem] p-10 flex flex-col md:flex-row justify-between items-center gap-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-transparent" />
+            <div className="text-center md:text-left relative z-10">
+              <h4 className="text-xl font-bold text-white tracking-tight mb-1">Bantuan Teknis</h4>
+              <p className="text-slate-400 text-sm font-medium opacity-80">Butuh bantuan? Hubungi tim support developer Research Space.</p>
             </div>
-            <button className="px-8 py-4 bg-white text-blue-600 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-lg">
-              Open Support Ticket
+            <button className="px-8 py-4 bg-white text-slate-900 rounded-2xl text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-blue-600 hover:text-white transition-all shadow-xl relative z-10">
+              Buka Tiket Support
             </button>
           </div>
         </div>

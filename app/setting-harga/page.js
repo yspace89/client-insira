@@ -38,7 +38,7 @@ import {
 const PriceField = ({ label, value, onChange, isReadOnly, percentage }) => (
   <div className="group">
     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">{label}</label>
-    <div className={`relative flex items-center bg-white border ${isReadOnly ? 'border-slate-100 bg-slate-50/40' : 'border-slate-200'} rounded-2xl transition-all ${!isReadOnly && 'focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50/50 shadow-sm'}`}>
+    <div className={`relative flex items-center bg-white border ${isReadOnly ? 'border-slate-100 bg-slate-50/40' : 'border-slate-200'} rounded-2xl transition-all ${!isReadOnly && 'focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/5 shadow-sm'}`}>
       <span className="pl-4 text-slate-300 font-bold text-sm select-none">Rp</span>
       <input 
         type="text" 
@@ -149,43 +149,38 @@ export default function SettingHarga() {
     <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans">
       <Sidebar activeMenu="Setting Harga" />
 
-      <main className="flex-1 flex flex-col relative overflow-hidden bg-slate-50">
+      <main className="flex-1 flex flex-col relative overflow-hidden bg-slate-50/50">
         {/* ENHANCED STRATEGIC HEADER */}
         <div className="bg-white border-b border-slate-200 px-6 lg:px-10 py-6 z-20 shadow-sm shrink-0">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1600px] mx-auto">
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-slate-900 rounded-[1.25rem] flex items-center justify-center text-white shadow-xl shadow-slate-200">
-                <Settings2 size={28} strokeWidth={2.5} />
+              <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-slate-200">
+                <Settings2 size={24} strokeWidth={2} />
               </div>
-              <div className="space-y-1">
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight leading-none">Pusat Strategi Harga</h1>
+              <div className="space-y-0.5">
+                <h1 className="text-xl font-bold text-slate-800 tracking-tight">Strategi Harga</h1>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-                    Konfigurasi Presisi & Simulator Penjualan Pintar
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+                    Konfigurasi Presisi & Simulator Sales Pintar
                   </p>
                 </div>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="hidden lg:flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
-                <Activity size={16} className="text-blue-500" />
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">System Online</span>
-              </div>
               <button 
                 onClick={handleSaveAll}
                 disabled={saveStatus === 'saving'}
-                className={`flex items-center gap-3 px-8 py-3.5 rounded-2xl font-black text-[11px] tracking-widest transition-all shadow-lg ${
-                  saveStatus === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200' : 'bg-blue-600 text-white hover:bg-blue-500 shadow-blue-200 hover:-translate-y-0.5 active:translate-y-0'
+                className={`flex items-center gap-3 px-8 py-3 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all shadow-xl ${
+                  saveStatus === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200' : 'bg-slate-900 text-white hover:bg-blue-600 shadow-slate-200 hover:-translate-y-0.5 active:translate-y-0'
                 }`}
               >
                 {saveStatus === 'saving' ? (
-                  <><Loader2 size={16} className="animate-spin" /> MENYIMPAN...</>
+                  <><Loader2 size={16} className="animate-spin" /> Menyimpan...</>
                 ) : saveStatus === 'success' ? (
-                  <><CheckCircle2 size={16} /> BERHASIL DISIMPAN</>
+                  <><CheckCircle2 size={16} /> Berhasil Disimpan</>
                 ) : (
-                  <><Save size={16} /> SIMPAN PERUBAHAN</>
+                  <><Save size={16} /> Perbarui Harga</>
                 )}
               </button>
             </div>
@@ -193,16 +188,16 @@ export default function SettingHarga() {
         </div>
 
         {/* UNIT SELECTOR BAR (INTEGRATED) */}
-        <div className="bg-slate-50/80 backdrop-blur-md border-b border-slate-200 px-6 lg:px-10 py-3 z-10 sticky top-0 shrink-0">
+        <div className="bg-white/40 backdrop-blur-md border-b border-slate-200 px-6 lg:px-10 py-3 z-10 sticky top-0 shrink-0">
           <div className="max-w-[1600px] mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-r border-slate-200 pr-4">Pilih Unit:</span>
-              <div className="flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto no-scrollbar max-w-[60vw]">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-r border-slate-200 pr-4 leading-none">Pilih Unit:</span>
+              <div className="flex p-1 bg-slate-200/40 rounded-xl border border-slate-100 overflow-x-auto no-scrollbar max-w-[60vw]">
                 {Object.keys(configs).map(unit => (
                   <button 
                     key={unit} 
                     onClick={() => setActiveConfigUnit(unit)}
-                    className={`px-5 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all shrink-0 ${activeConfigUnit === unit ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`px-5 py-2 rounded-lg text-[10px] font-bold tracking-widest transition-all shrink-0 ${activeConfigUnit === unit ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800'}`}
                   >
                     {unit}
                   </button>
@@ -210,8 +205,7 @@ export default function SettingHarga() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active:</span>
-              <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black tracking-wider border border-blue-100">{activeConfigUnit}</span>
+               <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-bold tracking-wider border border-blue-100 uppercase">{activeConfigUnit} Aktif</span>
             </div>
           </div>
         </div>
@@ -222,30 +216,30 @@ export default function SettingHarga() {
             {/* MASTER CARDS */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 px-2">
-                <div className="w-8 h-8 rounded-xl bg-slate-800 flex items-center justify-center text-white shadow-lg"><Layers size={16} /></div>
-                <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Pengaturan Harga Master</h2>
+                <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Konfigurasi Harga Master</h2>
+                <div className="h-px flex-1 bg-slate-200/60" />
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-                <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white"><DollarSign size={16} /></div>
-                    <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Master At Need</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-8 group hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center group-hover:scale-105 transition-transform"><DollarSign size={18} strokeWidth={2.5} /></div>
+                    <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Master At Need</h2>
                   </div>
-                  <PriceField label="Total Harga" value={activeCfg.masterAtNeed} onChange={(v) => updateConfig(activeConfigUnit, 'masterAtNeed', v)} />
-                  <div className="grid grid-cols-2 gap-4">
+                  <PriceField label="Harga Total" value={activeCfg.masterAtNeed} onChange={(v) => updateConfig(activeConfigUnit, 'masterAtNeed', v)} />
+                  <div className="grid grid-cols-2 gap-6">
                     <PriceField label="Harga Satuan Unit" value={activeCfg.masterAtNeedUnit} onChange={(v) => updateConfig(activeConfigUnit, 'masterAtNeedUnit', v)} percentage={activeCfg.masterAtNeed > 0 ? Math.round((activeCfg.masterAtNeedUnit/activeCfg.masterAtNeed)*100) : 0} />
-                    <PriceField label="Biaya IPLM Master" value={activeCfg.masterAtNeed - activeCfg.masterAtNeedUnit} isReadOnly percentage={activeCfg.masterAtNeed > 0 ? Math.round(((activeCfg.masterAtNeed - activeCfg.masterAtNeedUnit)/activeCfg.masterAtNeed)*100) : 0} />
+                    <PriceField label="Biaya IPLM" value={activeCfg.masterAtNeed - activeCfg.masterAtNeedUnit} isReadOnly percentage={activeCfg.masterAtNeed > 0 ? Math.round(((activeCfg.masterAtNeed - activeCfg.masterAtNeedUnit)/activeCfg.masterAtNeed)*100) : 0} />
                   </div>
                 </div>
-                <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-xl bg-slate-600 flex items-center justify-center text-white"><ShieldCheck size={16} /></div>
-                    <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Master Pre Need</h2>
+                <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-8 group hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center group-hover:scale-105 transition-transform"><ShieldCheck size={18} strokeWidth={2.5} /></div>
+                    <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Master Pre Need</h2>
                   </div>
-                  <PriceField label="Total Harga" value={activeCfg.masterPreNeed} onChange={(v) => updateConfig(activeConfigUnit, 'masterPreNeed', v)} />
-                  <div className="grid grid-cols-2 gap-4">
+                  <PriceField label="Harga Total" value={activeCfg.masterPreNeed} onChange={(v) => updateConfig(activeConfigUnit, 'masterPreNeed', v)} />
+                  <div className="grid grid-cols-2 gap-6">
                     <PriceField label="Harga Satuan Unit" value={activeCfg.masterPreNeedUnit} onChange={(v) => updateConfig(activeConfigUnit, 'masterPreNeedUnit', v)} percentage={activeCfg.masterPreNeed > 0 ? Math.round((activeCfg.masterPreNeedUnit/activeCfg.masterPreNeed)*100) : 0} />
-                    <PriceField label="Biaya IPLM Master" value={activeCfg.masterPreNeed - activeCfg.masterPreNeedUnit} isReadOnly percentage={activeCfg.masterPreNeed > 0 ? Math.round(((activeCfg.masterPreNeed - activeCfg.masterPreNeedUnit)/activeCfg.masterPreNeed)*100) : 0} />
+                    <PriceField label="Biaya IPLM" value={activeCfg.masterPreNeed - activeCfg.masterPreNeedUnit} isReadOnly percentage={activeCfg.masterPreNeed > 0 ? Math.round(((activeCfg.masterPreNeed - activeCfg.masterPreNeedUnit)/activeCfg.masterPreNeed)*100) : 0} />
                   </div>
                 </div>
               </div>
@@ -253,54 +247,53 @@ export default function SettingHarga() {
 
             {/* SEASONAL SECTION */}
             <div className="space-y-6">
-              <div className="bg-amber-50/50 border border-amber-100 rounded-[2.5rem] p-8 shadow-sm">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 px-2">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center text-white shadow-xl shadow-amber-200/50 animate-pulse"><Zap size={24} /></div>
+              <div className="bg-amber-50/30 border border-amber-100 rounded-[2.5rem] p-10 shadow-[0_10px_40px_rgba(245,158,11,0.03)] relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/20 rounded-full blur-3xl -mr-16 -mt-16" />
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 mb-10 relative z-10">
+                  <div className="flex items-center gap-5">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center text-white shadow-xl shadow-amber-200"><Zap size={22} strokeWidth={2.5} /></div>
                     <div>
-                      <h2 className="text-lg font-black text-slate-800 tracking-tight">Pengaturan Harga Seasonal</h2>
-                      <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Periode Promosi Musiman</p>
+                      <h2 className="text-xl font-bold text-slate-800 tracking-tight">Harga Promo Musiman</h2>
+                      <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mt-0.5">Aturan Kampanye & Promo Musiman</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 bg-white p-2 rounded-2xl border-2 border-amber-200 shadow-md">
-                    <div className="flex items-center gap-6 px-4">
+                  <div className="flex items-center gap-6 bg-white/60 backdrop-blur-sm px-6 py-3 rounded-2xl border border-amber-200 shadow-md">
                       <div className="flex flex-col">
-                        <span className="text-[8px] font-black text-amber-500 uppercase tracking-widest mb-1">MULAI BERLAKU</span>
-                        <input type="date" className="text-sm font-black text-slate-700 bg-transparent outline-none cursor-pointer" value={activeCfg.startDate} onChange={(e) => updateConfig(activeConfigUnit, 'startDate', e.target.value)} />
+                        <span className="text-[8px] font-bold text-amber-500 uppercase tracking-widest mb-1.5 opacity-70">Tanggal Mulai</span>
+                        <input type="date" className="text-sm font-bold text-slate-700 bg-transparent outline-none cursor-pointer" value={activeCfg.startDate} onChange={(e) => updateConfig(activeConfigUnit, 'startDate', e.target.value)} />
                       </div>
-                      <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-400">
-                        <ArrowRight size={20} strokeWidth={3} />
+                      <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-300">
+                        <ArrowRight size={18} strokeWidth={3} />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[8px] font-black text-amber-500 uppercase tracking-widest mb-1">HINGGA TANGGAL</span>
-                        <input type="date" className="text-sm font-black text-slate-700 bg-transparent outline-none cursor-pointer" value={activeCfg.endDate} onChange={(e) => updateConfig(activeConfigUnit, 'endDate', e.target.value)} />
+                        <span className="text-[8px] font-bold text-amber-500 uppercase tracking-widest mb-1.5 opacity-70">Tanggal Selesai</span>
+                        <input type="date" className="text-sm font-bold text-slate-700 bg-transparent outline-none cursor-pointer" value={activeCfg.endDate} onChange={(e) => updateConfig(activeConfigUnit, 'endDate', e.target.value)} />
                       </div>
-                    </div>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-                  <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600"><DollarSign size={16} /></div>
-                      <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Seasonal At Need</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 relative z-10">
+                  <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-8 group hover:shadow-md transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center"><DollarSign size={18} strokeWidth={2.5} /></div>
+                      <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Seasonal At Need</h2>
                     </div>
-                    <PriceField label="Total Harga" value={activeCfg.seasonalAtNeed} onChange={(v) => updateConfig(activeConfigUnit, 'seasonalAtNeed', v)} />
-                    <div className="grid grid-cols-2 gap-4">
-                      <PriceField label="Harga Unit Seasonal" value={seasonalAtNeedUnit} isReadOnly percentage={activeCfg.seasonalAtNeed > 0 ? Math.round((seasonalAtNeedUnit/activeCfg.seasonalAtNeed)*100) : 0} />
-                      <PriceField label="Biaya IPLM Seasonal" value={activeCfg.seasonalAtNeed - seasonalAtNeedUnit} isReadOnly percentage={activeCfg.seasonalAtNeed > 0 ? Math.round(((activeCfg.seasonalAtNeed - seasonalAtNeedUnit)/activeCfg.seasonalAtNeed)*100) : 0} />
+                    <PriceField label="Harga Total" value={activeCfg.seasonalAtNeed} onChange={(v) => updateConfig(activeConfigUnit, 'seasonalAtNeed', v)} />
+                    <div className="grid grid-cols-2 gap-6">
+                      <PriceField label="Harga Satuan Unit" value={seasonalAtNeedUnit} isReadOnly percentage={activeCfg.seasonalAtNeed > 0 ? Math.round((seasonalAtNeedUnit/activeCfg.seasonalAtNeed)*100) : 0} />
+                      <PriceField label="Biaya IPLM" value={activeCfg.seasonalAtNeed - seasonalAtNeedUnit} isReadOnly percentage={activeCfg.seasonalAtNeed > 0 ? Math.round(((activeCfg.seasonalAtNeed - seasonalAtNeedUnit)/activeCfg.seasonalAtNeed)*100) : 0} />
                     </div>
                   </div>
-                  <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600"><ShieldCheck size={16} /></div>
-                      <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Seasonal Pre Need</h2>
+                  <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-8 group hover:shadow-md transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center"><ShieldCheck size={18} strokeWidth={2.5} /></div>
+                      <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Seasonal Pre Need</h2>
                     </div>
-                    <PriceField label="Total Harga" value={activeCfg.seasonalPreNeed} onChange={(v) => updateConfig(activeConfigUnit, 'seasonalPreNeed', v)} />
-                    <div className="grid grid-cols-2 gap-4">
-                      <PriceField label="Harga Unit Seasonal" value={seasonalPreNeedUnit} isReadOnly percentage={activeCfg.seasonalPreNeed > 0 ? Math.round((seasonalPreNeedUnit/activeCfg.seasonalPreNeed)*100) : 0} />
-                      <PriceField label="Biaya IPLM Seasonal" value={activeCfg.seasonalPreNeed - seasonalPreNeedUnit} isReadOnly percentage={activeCfg.seasonalPreNeed > 0 ? Math.round(((activeCfg.seasonalPreNeed - seasonalPreNeedUnit)/activeCfg.seasonalPreNeed)*100) : 0} />
+                    <PriceField label="Harga Total" value={activeCfg.seasonalPreNeed} onChange={(v) => updateConfig(activeConfigUnit, 'seasonalPreNeed', v)} />
+                    <div className="grid grid-cols-2 gap-6">
+                      <PriceField label="Harga Satuan Unit" value={seasonalPreNeedUnit} isReadOnly percentage={activeCfg.seasonalPreNeed > 0 ? Math.round((seasonalPreNeedUnit/activeCfg.seasonalPreNeed)*100) : 0} />
+                      <PriceField label="Biaya IPLM" value={activeCfg.seasonalPreNeed - seasonalPreNeedUnit} isReadOnly percentage={activeCfg.seasonalPreNeed > 0 ? Math.round(((activeCfg.seasonalPreNeed - seasonalPreNeedUnit)/activeCfg.seasonalPreNeed)*100) : 0} />
                     </div>
                   </div>
                 </div>
@@ -309,58 +302,61 @@ export default function SettingHarga() {
 
             {/* RULES & DISCOUNTS */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 pb-20">
-              <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-xl bg-rose-500 flex items-center justify-center text-white"><Receipt size={16} /></div>
-                  <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Aturan Pembayaran</h2>
+              <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-10 group hover:shadow-md transition-all">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center"><Receipt size={18} strokeWidth={2.5} /></div>
+                  <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Aturan Down Payment</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <PriceField label="Min. DP" value={activeCfg.minDP} onChange={(v) => updateConfig(activeConfigUnit, 'minDP', v)} />
+                <div className="grid grid-cols-2 gap-8">
+                  <PriceField label="Minimum DP" value={activeCfg.minDP} onChange={(v) => updateConfig(activeConfigUnit, 'minDP', v)} />
                   <PriceField label="Booking Fee" value={activeCfg.minBooking} onChange={(v) => updateConfig(activeConfigUnit, 'minBooking', v)} />
                 </div>
               </div>
-              <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm space-y-6">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-8 group hover:shadow-md transition-all">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center text-white"><Tag size={16} /></div>
-                    <h2 className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Diskon Tambahan Unit</h2>
+                    <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center"><Tag size={18} strokeWidth={2.5} /></div>
+                    <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Aturan Diskon Kuantitas</h2>
                   </div>
-                  <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 scale-90">
-                    <button onClick={() => updateConfig(activeConfigUnit, 'discountType', 'flat')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black transition-all ${activeCfg.discountType === 'flat' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-400'}`}>POTONGAN FLAT</button>
-                    <button onClick={() => updateConfig(activeConfigUnit, 'discountType', 'per-unit')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black transition-all ${activeCfg.discountType === 'per-unit' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-400'}`}>POTONGAN PER UNIT</button>
+                  <div className="flex bg-slate-100 p-1 rounded-xl scale-90 border border-slate-200/50">
+                    <button onClick={() => updateConfig(activeConfigUnit, 'discountType', 'flat')} className={`px-4 py-1.5 rounded-lg text-[9px] font-bold transition-all ${activeCfg.discountType === 'flat' ? 'bg-white text-emerald-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>DISKON FLAT</button>
+                    <button onClick={() => updateConfig(activeConfigUnit, 'discountType', 'per-unit')} className={`px-4 py-1.5 rounded-lg text-[9px] font-bold transition-all ${activeCfg.discountType === 'per-unit' ? 'bg-white text-emerald-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>DISKON PER UNIT</button>
                   </div>
                 </div>
                 
                 <div className="flex justify-between items-center mb-4 px-1">
-                   <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-200">
-                    <button onClick={() => updateConfig(activeConfigUnit, 'discountMode', 'after-min')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black transition-all ${activeCfg.discountMode === 'after-min' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400'}`}>SETELAH MINIMAL</button>
-                    <button onClick={() => updateConfig(activeConfigUnit, 'discountMode', 'multiple')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black transition-all ${activeCfg.discountMode === 'multiple' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400'}`}>KELIPATAN</button>
+                   <div className="flex bg-slate-50 p-1 rounded-xl border border-slate-100">
+                    <button onClick={() => updateConfig(activeConfigUnit, 'discountMode', 'after-min')} className={`px-4 py-1.5 rounded-lg text-[9px] font-bold transition-all ${activeCfg.discountMode === 'after-min' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400'}`}>MINIMAL QTY</button>
+                    <button onClick={() => updateConfig(activeConfigUnit, 'discountMode', 'multiple')} className={`px-4 py-1.5 rounded-lg text-[9px] font-bold transition-all ${activeCfg.discountMode === 'multiple' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400'}`}>SETIAP KELIPATAN</button>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   {(activeCfg.discountMode === 'multiple' ? activeCfg.tiers.slice(0, 1) : activeCfg.tiers).map(tier => (
-                    <div key={tier.id} className="flex items-end gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 border-l-4 border-l-emerald-500">
+                    <div key={tier.id} className="flex items-end gap-5 p-6 bg-slate-50/50 rounded-2xl border border-slate-100 border-l-[6px] border-l-emerald-500">
                       <div className="w-28">
-                        <label className="text-[8px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-                          {activeCfg.discountMode === 'after-min' ? 'Minimal Unit' : 'Setiap Kelipatan'}
+                        <label className="text-[9px] font-bold text-slate-400 mb-2 block uppercase tracking-widest opacity-70">
+                          {activeCfg.discountMode === 'after-min' ? 'Min Unit' : 'Kelipatan'}
                         </label>
-                        <input type="number" className="w-full bg-transparent font-bold outline-none text-slate-700" value={tier.minQty} onChange={(e) => updateTier(activeConfigUnit, tier.id, 'minQty', e.target.value)} />
+                        <input type="number" className="w-full bg-transparent font-bold outline-none text-slate-800 text-lg" value={tier.minQty} onChange={(e) => updateTier(activeConfigUnit, tier.id, 'minQty', e.target.value)} />
                       </div>
                       <div className="flex-1">
-                        <label className="text-[8px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-                          {activeCfg.discountType === 'per-unit' ? 'Potongan per Unit' : 'Total Potongan Flat'}
+                        <label className="text-[9px] font-bold text-slate-400 mb-2 block uppercase tracking-widest opacity-70">
+                          {activeCfg.discountType === 'per-unit' ? 'Diskon Per Unit' : 'Nilai Diskon Flat'}
                         </label>
-                        <input type="text" className="w-full bg-transparent font-bold outline-none text-slate-700" value={formatDisplayNumber(tier.discount)} onChange={(e) => updateTier(activeConfigUnit, tier.id, 'discount', parseFormattedNumber(e.target.value))} />
+                        <div className="flex items-center gap-2">
+                           <span className="text-slate-300 font-bold">Rp</span>
+                           <input type="text" className="w-full bg-transparent font-bold outline-none text-slate-800 text-lg" value={formatDisplayNumber(tier.discount)} onChange={(e) => updateTier(activeConfigUnit, tier.id, 'discount', parseFormattedNumber(e.target.value))} />
+                        </div>
                       </div>
                       {activeCfg.discountMode !== 'multiple' && activeCfg.tiers.length > 1 && (
-                        <button onClick={() => removeTier(activeConfigUnit, tier.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                        <button onClick={() => removeTier(activeConfigUnit, tier.id)} className="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"><Trash2 size={16} /></button>
                       )}
                     </div>
                   ))}
                   {activeCfg.discountMode !== 'multiple' && (
-                    <button onClick={() => addTier(activeConfigUnit)} className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-[10px] font-bold text-slate-400 hover:bg-slate-100 hover:border-blue-300 transition-all flex items-center justify-center gap-2">
-                      <Plus size={16} /> TAMBAH ATURAN DISKON
+                    <button onClick={() => addTier(activeConfigUnit)} className="w-full py-4 border-2 border-dashed border-slate-200 rounded-[1.5rem] text-[10px] font-bold text-slate-400 hover:bg-white hover:border-blue-300 hover:text-blue-500 transition-all flex items-center justify-center gap-2">
+                      <協 size={16} /> TAMBAH TIER DISKON
                     </button>
                   )}
                 </div>
@@ -373,48 +369,73 @@ export default function SettingHarga() {
         <div className="fixed bottom-10 right-10 z-40">
           <button 
             onClick={() => setIsSimModalOpen(true)}
-            className="group flex items-center gap-4 bg-slate-900 text-white pl-6 pr-2 py-2 rounded-full shadow-[0_20px_50px_-10px_rgba(15,23,42,0.6)] border border-white/10 hover:bg-blue-600 transition-all"
+            className="group flex items-center gap-5 bg-slate-900 text-white pl-8 pr-3 py-3 rounded-full shadow-[0_30px_60px_-12px_rgba(15,23,42,0.4)] border border-white/10 hover:bg-blue-600 transition-all scale-110"
           >
-            <div className="flex flex-col items-start pr-2 border-r border-white/10">
-              <span className="text-[8px] font-black text-slate-500 group-hover:text-white/70 uppercase tracking-widest text-left">Estimasi Penjualan</span>
-              <span className="text-sm font-black tracking-tight">{formatCurrency(simulation.totalBill)}</span>
+            <div className="flex flex-col items-start pr-4 border-r border-white/10">
+              <span className="text-[9px] font-bold text-slate-500 group-hover:text-white/60 uppercase tracking-widest mb-0.5">Estimasi Cepat</span>
+              <span className="text-base font-bold tracking-tight">{formatCurrency(simulation.totalBill)}</span>
             </div>
             <div className="w-10 h-10 bg-blue-600 group-hover:bg-white group-hover:text-blue-600 rounded-full flex items-center justify-center transition-all">
-              <Calculator size={18} />
+              <Calculator size={18} strokeWidth={2.5} />
             </div>
           </button>
         </div>
 
         {/* --- ULTIMATE CENTERED MODAL --- */}
         {isSimModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl" onClick={() => setIsSimModalOpen(false)} />
-            <div className="relative w-full max-w-4xl bg-slate-900 rounded-[3rem] shadow-[0_80px_160px_-20px_rgba(0,0,0,0.9)] border border-white/10 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300 m-6">
-              <div className="px-10 py-5 border-b border-white/5 flex items-center justify-between bg-slate-900/50 shrink-0">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-2xl shadow-blue-900/50"><Cpu size={20} /></div>
-                  <div><h2 className="text-lg font-black text-white tracking-tight">Simulator Penjualan</h2><p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Unit {activeConfigUnit}</p></div>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" onClick={() => setIsSimModalOpen(false)} />
+            <div className="relative w-full max-w-4xl bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300">
+              <div className="px-10 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-xl shadow-slate-200"><Cpu size={20} /></div>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">Simulator Sales</h2>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Menghitung untuk Unit: {activeConfigUnit}</p>
+                  </div>
                 </div>
-                <button onClick={() => setIsSimModalOpen(false)} className="w-8 h-8 rounded-full hover:bg-white/5 flex items-center justify-center text-slate-500 transition-colors"><X size={20} /></button>
+                <button onClick={() => setIsSimModalOpen(false)} className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all"><X size={20} /></button>
               </div>
 
-              <div className="px-12 py-6 space-y-8 flex flex-col items-center shrink-0">
-                <div className="grid grid-cols-2 gap-6 w-full">
-                  <div className="space-y-2"><label className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-1">Harga yang Digunakan</label><div className="flex bg-slate-950 p-1 rounded-xl border border-white/5"><button onClick={() => setSimMode('master')} className={`flex-1 py-3 rounded-lg text-[9px] font-black tracking-widest transition-all ${simMode === 'master' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600'}`}>MASTER</button><button onClick={() => setSimMode('seasonal')} className={`flex-1 py-3 rounded-lg text-[9px] font-black tracking-widest transition-all ${simMode === 'seasonal' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600'}`}>SEASONAL</button></div></div>
-                  <div className="space-y-2"><label className="text-[8px] font-black text-slate-500 uppercase tracking-widest px-1">Jenis Pembelian</label><div className="flex bg-slate-950 p-1 rounded-xl border border-white/5"><button onClick={() => setSimCategory('atNeed')} className={`flex-1 py-3 rounded-lg text-[9px] font-black tracking-widest transition-all ${simCategory === 'atNeed' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600'}`}>AT NEED</button><button onClick={() => setSimCategory('preNeed')} className={`flex-1 py-3 rounded-lg text-[9px] font-black tracking-widest transition-all ${simCategory === 'preNeed' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600'}`}>PRE NEED</button></div></div>
-                </div>
-
-                <div className="bg-slate-950 rounded-[2rem] p-6 border border-white/5 flex flex-col items-center justify-center space-y-2 w-full">
-                  <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Masukkan Jumlah Unit</span>
-                  <div className="flex flex-col items-center w-full">
-                    <input type="number" className="w-full bg-transparent text-center text-6xl font-black text-white outline-none tabular-nums focus:text-blue-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={simQty} onChange={(e) => setSimQty(Math.max(1, parseInt(e.target.value) || 1))} />
-                    <div className="border-t border-white/5 pt-3 mt-1 px-8 text-center"><span className="text-base font-black text-blue-500 uppercase tracking-wider">{simQty} Unit {activeConfigUnit}</span><p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Basis Harga: {formatCurrency(simulation.unitPriceBeforeAdditional)}</p></div>
+              <div className="px-12 py-10 space-y-10 flex flex-col items-center overflow-y-auto no-scrollbar">
+                <div className="grid grid-cols-2 gap-8 w-full">
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Tier Harga</label>
+                     <div className="flex bg-slate-100 p-1.5 rounded-[1.25rem] border border-slate-200/50">
+                        <button onClick={() => setSimMode('master')} className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${simMode === 'master' ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>HARGA MASTER</button>
+                        <button onClick={() => setSimMode('seasonal')} className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${simMode === 'seasonal' ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>HARGA PROMO</button>
+                     </div>
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Tipe Pembelian</label>
+                     <div className="flex bg-slate-100 p-1.5 rounded-[1.25rem] border border-slate-200/50">
+                        <button onClick={() => setSimCategory('atNeed')} className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${simCategory === 'atNeed' ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>AT NEED</button>
+                        <button onClick={() => setSimCategory('preNeed')} className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${simCategory === 'preNeed' ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-400'}`}>PRE NEED</button>
+                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 w-full pb-2">
-                  <div className="p-5 bg-emerald-500/10 rounded-3xl border border-emerald-500/20 flex flex-col items-center space-y-1"><span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Total Diskon</span><div className="text-2xl font-black text-emerald-400 tabular-nums">-{formatCurrency(simulation.totalAdditionalDiscount)}</div></div>
-                  <div className="p-5 bg-blue-600/10 rounded-3xl border border-blue-500/20 flex flex-col items-center space-y-1"><span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Tagihan Akhir</span><div className="text-3xl font-black text-white tabular-nums tracking-tighter">{formatCurrency(simulation.totalBill)}</div></div>
+                <div className="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 flex flex-col items-center justify-center space-y-4 w-full shadow-inner">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest opacity-70">Penyesuaian Kuantitas</span>
+                  <div className="flex items-center gap-10">
+                     <button onClick={() => setSimQty(Math.max(1, simQty - 1))} className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm"><ChevronDown size={28} /></button>
+                     <div className="flex flex-col items-center">
+                        <input type="number" className="bg-transparent text-center text-8xl font-bold text-slate-800 outline-none tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-40" value={simQty} onChange={(e) => setSimQty(Math.max(1, parseInt(e.target.value) || 1))} />
+                        <span className="text-xs font-bold text-blue-500 uppercase tracking-[0.3em] mt-2">Unit dari {activeConfigUnit}</span>
+                     </div>
+                     <button onClick={() => setSimQty(simQty + 1)} className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm"><ChevronUp size={28} /></button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8 w-full">
+                  <div className="p-8 bg-emerald-50 rounded-[2rem] border border-emerald-100 flex flex-col items-center space-y-2">
+                    <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest opacity-80">Hemat Grosir</span>
+                    <div className="text-3xl font-bold text-emerald-600 tabular-nums">-{formatCurrency(simulation.totalAdditionalDiscount)}</div>
+                  </div>
+                  <div className="p-8 bg-blue-600 rounded-[2rem] shadow-xl shadow-blue-200 flex flex-col items-center space-y-2 text-white">
+                    <span className="text-[11px] font-bold text-blue-100 uppercase tracking-widest opacity-70">Estimasi Akhir</span>
+                    <div className="text-4xl font-bold tabular-nums tracking-tight">{formatCurrency(simulation.totalBill)}</div>
+                  </div>
                 </div>
               </div>
             </div>
