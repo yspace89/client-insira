@@ -37,6 +37,18 @@
   .nav-item-tw.active {
     @apply bg-slate-100 text-blue-600 font-semibold shadow-sm;
   }
+
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  }
+
+  .neon-border {
+    @apply border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)];
+  }
+
+  .neon-glow {
+    @apply shadow-[0_0_20px_rgba(6,182,212,0.4)];
+  }
 }
 
 /* Animations */
