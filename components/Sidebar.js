@@ -46,7 +46,7 @@ export default function Sidebar({ activeMenu }) {
     { icon: Trophy, label: "Capaian Sales", href: "/capaian-sales" },
     { icon: Calculator, label: "Simulasi Angsuran" },
     { icon: Building2, label: "Agensi", hasDropdown: true },
-    { icon: Users2, label: "Tim", hasDropdown: true },
+    { icon: Users2, label: "Tim", hasDropdown: true, href: "/anggota-tim" },
     { icon: Calendar, label: "Event", hasDropdown: true },
     { icon: RotateCcw, label: "Request Refund" },
     { icon: List, label: "Pembelian OTS" },
