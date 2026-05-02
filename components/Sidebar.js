@@ -70,12 +70,12 @@ export default function Sidebar({ activeMenu }) {
         {!isCollapsed && (
           <div className="flex flex-col animate-fadeIn overflow-hidden">
             <div className="relative">
-              <span className="text-lg font-bold text-slate-800 leading-tight tracking-tight inline-block">
-                Research <span className="text-blue-600">Space</span>
+              <span className="text-lg font-bold text-slate-800 leading-tight tracking-tight inline-block uppercase">
+                RESEARCH <span className="text-blue-600">SPACE</span>
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_4s_ease-in-out_infinite]" />
             </div>
-            <span className="text-[8px] font-medium text-slate-400 tracking-[0.1em] uppercase mt-0.5 opacity-80">Sistem Manajemen Terpadu</span>
+            <span className="text-[8px] font-medium text-slate-400 tracking-[0.1em] uppercase mt-0.5 opacity-80">SALES & PARTNERSHIP INTEGRATION</span>
           </div>
         )}
       </div>
