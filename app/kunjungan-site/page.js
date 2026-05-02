@@ -42,6 +42,18 @@ export default function KunjunganSite() {
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [confirmModal, setConfirmModal] = useState({ show: false, id: null, nextStatus: null });
   const [showAddModal, setShowAddModal] = useState(false);
+  const [salesSearch, setSalesSearch] = useState('');
+  const [showSalesDropdown, setShowSalesDropdown] = useState(false);
+
+  const salesList = [
+    'Fattah - MA, Propertilogi',
+    'Zulkipli - MO, Internal',
+    'Ani - MP, Future Home',
+    'Budi - MO, Citra Property',
+    'Siti - MA, Indo Home',
+    'Hendro - MO, Metro Realty',
+    'Rina - MP, Prime Estate'
+  ];
 
   const [newSchedule, setNewSchedule] = useState({
     name: '',
@@ -229,20 +241,15 @@ export default function KunjunganSite() {
             <div className={`bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 ${cardRound}`}>
               <div className="flex justify-between items-start mb-1">
                 <div>
-                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Total Jadwal Kunjungan Bulan {monthlyStats.monthName}</div>
+                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Jadwal Kunjungan Bulan ini</div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.total}</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Jadwal</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Jadwal dibuat</span>
                   </div>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl shadow-inner">
                   <CalendarDays size={18} />
                 </div>
-              </div>
-              <div className="flex items-center gap-2 mt-4">
-                <span className="inline-flex items-center justify-center bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[9px] font-bold border border-blue-100">
-                  Total Jadwal Parameter Bulanan
-                </span>
               </div>
             </div>
 
@@ -516,19 +523,43 @@ export default function KunjunganSite() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Sales Terkait</label>
-                  <select 
-                    required
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-700 outline-none appearance-none cursor-pointer focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all"
-                    value={newSchedule.sales}
-                    onChange={(e) => setNewSchedule({ ...newSchedule, sales: e.target.value })}
-                  >
-                    <option value="">Pilih Sales...</option>
-                    {['Zulkipli Nasution', 'Ani Wijaya', 'Budi Santoso', 'Siti Aminah', 'Hendro Wibowo'].map(s => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
+                <div className="space-y-2 relative">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Sales</label>
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                    <input 
+                      type="text"
+                      placeholder="Cari nama, role, atau agensi..."
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-700 focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none"
+                      value={salesSearch || newSchedule.sales}
+                      onFocus={() => setShowSalesDropdown(true)}
+                      onChange={(e) => {
+                        setSalesSearch(e.target.value);
+                        setShowSalesDropdown(true);
+                      }}
+                    />
+                    {showSalesDropdown && (
+                      <div className="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-2xl max-h-48 overflow-y-auto no-scrollbar animate-fadeIn">
+                        {salesList.filter(s => s.toLowerCase().includes(salesSearch.toLowerCase())).length > 0 ? (
+                          salesList.filter(s => s.toLowerCase().includes(salesSearch.toLowerCase())).map((sales, idx) => (
+                            <div 
+                              key={idx}
+                              onClick={() => {
+                                setNewSchedule({ ...newSchedule, sales: sales });
+                                setSalesSearch(sales);
+                                setShowSalesDropdown(false);
+                              }}
+                              className="px-4 py-3 text-xs font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 cursor-pointer transition-all border-b border-slate-50 last:border-0"
+                            >
+                              {sales}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="px-4 py-4 text-xs font-bold text-slate-400 text-center italic">Sales tidak ditemukan</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-2">
