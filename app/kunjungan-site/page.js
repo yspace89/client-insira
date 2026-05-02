@@ -242,9 +242,9 @@ export default function KunjunganSite() {
               <div className="flex justify-between items-start mb-1">
                 <div>
                   <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Jadwal Kunjungan Bulan ini</div>
-                  <div className="flex items-baseline gap-2">
+                  <div className="flex flex-col gap-1">
                     <span className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.total}</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Jadwal dibuat</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Jadwal dibuat</span>
                   </div>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl shadow-inner">
