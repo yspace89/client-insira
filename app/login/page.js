@@ -51,7 +51,7 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="flex flex-col items-center mb-10">
           <h1 className="text-[32px] font-bold text-white tracking-tight text-center">
-            Sign In to Exploration Space
+            Sign In to Space-Clientins
           </h1>
           <p className="text-slate-500 mt-2.5 text-sm text-center font-medium">
             Enter your credentials to manage the ecosystem.
@@ -132,7 +132,7 @@ export default function LoginPage() {
         <footer className="mt-20 flex flex-col items-center gap-4">
           <div className="h-px w-12 bg-slate-800"></div>
           <p className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.3em]">
-            © 2026 Y Space AI
+            © 2026 Space-Clientins AI
           </p>
         </footer>
       </div>

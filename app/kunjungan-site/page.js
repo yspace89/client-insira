@@ -37,7 +37,7 @@ import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
 
 export default function KunjunganSite() {
-  const [activeTab, setActiveTab] = useState('Belum berkunjung');
+  const [activeTab, setActiveTab] = useState('Belum');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [confirmModal, setConfirmModal] = useState({ show: false, id: null, nextStatus: null });
@@ -52,25 +52,29 @@ export default function KunjunganSite() {
     notes: ''
   });
 
-  const [data, setData] = useState([
-    { id: 1, name: 'Ahmad Subarjo', phone: '081234567890', schedule: '2026-04-27', time: '10:00', sales: 'Zulkipli Nasution', status: 'Belum berkunjung', notes: '' },
-    { id: 2, name: 'Ratna Sari', phone: '085678901234', schedule: '2026-04-27', time: '13:30', sales: 'Ani Wijaya', status: 'Sudah berkunjung', notes: 'Tertarik dengan Cluster B' },
-    { id: 3, name: 'Hendra Kurniawan', phone: '087788990011', schedule: '2026-04-28', time: '09:00', sales: 'Budi Santoso', status: 'Belum berkunjung', notes: '' },
-    { id: 4, name: 'Maya Indah', phone: '081122334455', schedule: '2026-04-28', time: '15:00', sales: 'Zulkipli Nasution', status: 'Belum berkunjung', notes: '' },
-    { id: 5, name: 'Joko Anwar', phone: '089900112233', schedule: '2026-04-29', time: '11:00', sales: 'Siti Aminah', status: 'Sudah berkunjung', notes: 'Bawa keluarga besar' },
-    { id: 6, name: 'Fitriani', phone: '081223344556', schedule: '2026-04-29', time: '14:00', sales: 'Hendro Wibowo', status: 'Belum berkunjung', notes: '' },
-    { id: 7, name: 'Budi Santoso', phone: '081234567001', schedule: '2026-05-01', time: '10:00', sales: 'Ani Wijaya', status: 'Belum berkunjung', notes: '' },
-    { id: 8, name: 'Dewi Lestari', phone: '081234567002', schedule: '2026-05-01', time: '11:30', sales: 'Budi Santoso', status: 'Belum berkunjung', notes: '' },
-    { id: 9, name: 'Eko Prasetyo', phone: '081234567003', schedule: '2026-05-02', time: '13:00', sales: 'Siti Aminah', status: 'Belum berkunjung', notes: '' },
-    { id: 10, name: 'Linda Wati', phone: '081234567004', schedule: '2026-05-02', time: '15:30', sales: 'Zulkipli Nasution', status: 'Belum berkunjung', notes: '' },
-  ]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // WEEKLY STATS
-  const weeklyStats = {
-    total: 34,
-    sudah: 10,
-    belum: 24,
+  // 1. FUNGSI AMBIL DATA DARI API
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/kunjungan');
+      const result = await response.json();
+      if (Array.isArray(result)) {
+        setData(result);
+      }
+    } catch (error) {
+      console.error("Gagal ambil data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // Ambil data pas halaman pertama kali dibuka
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   const formatFullDate = (dateStr) => {
     if (!dateStr) return "-";
@@ -78,35 +82,98 @@ export default function KunjunganSite() {
     return new Date(dateStr).toLocaleDateString('id-ID', options);
   };
 
-  const handleUpdateField = (id, field, value) => {
+  // 2. FUNGSI UPDATE DATA KE API (In-place edit)
+  const handleUpdateField = async (id, field, value) => {
+    // Update tampilan lokal dulu biar kerasa cepet (Optimistic Update)
     setData(prev => prev.map(item => item.id === id ? { ...item, [field]: value } : item));
+
+    try {
+      await fetch('/api/kunjungan', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, [field]: value })
+      });
+    } catch (error) {
+      console.error("Gagal update data ke server:", error);
+      fetchData(); // Refresh data kalau gagal biar balik ke data asli
+    }
   };
 
   const requestStatusChange = (id, currentStatus) => {
-    const nextStatus = currentStatus === 'Belum berkunjung' ? 'Sudah berkunjung' : 'Belum berkunjung';
+    const nextStatus = currentStatus === 'Belum' ? 'Sudah' : 'Belum';
     setConfirmModal({ show: true, id, nextStatus });
   };
 
-  const confirmStatusChange = () => {
+  // 3. FUNGSI UPDATE STATUS
+  const confirmStatusChange = async () => {
+    const { id, nextStatus } = confirmModal;
+    
+    // Update lokal
     setData(prev => prev.map(item => 
-      item.id === confirmModal.id ? { ...item, status: confirmModal.nextStatus } : item
+      item.id === id ? { ...item, status: nextStatus } : item
     ));
     setConfirmModal({ show: false, id: null, nextStatus: null });
+
+    try {
+      await fetch('/api/kunjungan', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: nextStatus })
+      });
+    } catch (error) {
+      console.error("Gagal ganti status:", error);
+      fetchData();
+    }
   };
 
-  const handleAddSchedule = (e) => {
+  // 4. FUNGSI SIMPAN JADWAL BARU
+  const handleAddSchedule = async (e) => {
     e.preventDefault();
-    const newId = data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1;
-    setData([{ ...newSchedule, id: newId, status: 'Belum berkunjung' }, ...data]);
-    setShowAddModal(false);
-    setNewSchedule({ name: '', phone: '', schedule: '', time: '', sales: '', notes: '' });
+    setLoading(true);
+    
+    try {
+      const response = await fetch('/api/kunjungan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSchedule)
+      });
+      
+      if (response.ok) {
+        setShowAddModal(false);
+        setNewSchedule({ name: '', phone: '', schedule: '', time: '', sales: '', notes: '' });
+        fetchData(); // Ambil data terbaru dari Lark
+      }
+    } catch (error) {
+      console.error("Gagal simpan jadwal:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const monthlyStats = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    const monthlyData = data.filter(item => {
+      if (!item.schedule) return false;
+      const d = new Date(item.schedule);
+      return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+    });
+
+    return {
+      total: monthlyData.length,
+      sudah: monthlyData.filter(d => d.status === 'Sudah').length,
+      belum: monthlyData.filter(d => d.status === 'Belum').length,
+      monthName: now.toLocaleDateString('id-ID', { month: 'long' })
+    };
+  }, [data]);
 
   const filteredData = useMemo(() => {
     return data.filter(item => {
       const matchesTab = item.status === activeTab;
-      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            item.sales.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            item.sales?.toLowerCase().includes(searchTerm.toLowerCase());
       
       const matchesDateRange = (!dateRange.start || item.schedule >= dateRange.start) && 
                                (!dateRange.end || item.schedule <= dateRange.end);
@@ -153,10 +220,10 @@ export default function KunjunganSite() {
             <div className={`bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 ${cardRound}`}>
               <div className="flex justify-between items-start mb-1">
                 <div>
-                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Fokus Minggu Ini</div>
+                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Target Kunjungan {monthlyStats.monthName}</div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold text-slate-900 tracking-tight">{weeklyStats.belum}</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sisa Kunjungan</span>
+                    <span className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.total}</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Jadwal</span>
                   </div>
                 </div>
                 <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl shadow-inner">
@@ -165,25 +232,27 @@ export default function KunjunganSite() {
               </div>
               <div className="flex items-center gap-2 mt-4">
                 <span className="inline-flex items-center justify-center bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[9px] font-bold border border-blue-100">
-                  Total {weeklyStats.total} Jadwal
+                  Parameter Bulanan
                 </span>
-                <span className="text-[10px] font-semibold text-slate-400">Minggu Ini</span>
+                <span className="text-[10px] font-semibold text-slate-400">Database Lark</span>
               </div>
             </div>
 
             <div className={`bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 ${cardRound}`}>
                <div className="flex justify-between items-start mb-1">
                   <div>
-                    <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Sudah Berkunjung</div>
-                    <div className="text-4xl font-bold text-slate-900 tracking-tight">42</div>
+                    <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Realisasi Datang</div>
+                    <div className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.sudah}</div>
                   </div>
                   <div className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-xl shadow-inner">
                     <CheckCircle2 size={18} />
                   </div>
                </div>
                <div className="flex items-center gap-2 mt-4">
-                  <span className="inline-flex items-center justify-center bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded text-[9px] font-bold border border-emerald-100">+12.5%</span>
-                  <span className="text-[10px] font-semibold text-slate-400">vs Bulan Lalu</span>
+                  <span className="inline-flex items-center justify-center bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded text-[9px] font-bold border border-emerald-100">
+                    {monthlyStats.total > 0 ? Math.round((monthlyStats.sudah / monthlyStats.total) * 100) : 0}% Tercapai
+                  </span>
+                  <span className="text-[10px] font-semibold text-slate-400">Tingkat Kehadiran</span>
                </div>
             </div>
 
@@ -191,16 +260,16 @@ export default function KunjunganSite() {
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shine_4s_ease-in-out_infinite]" />
               <div className="relative z-10 flex flex-col justify-between h-full">
                 <div className="flex justify-between items-start">
-                  <div className="text-[11px] font-bold text-white/70 tracking-widest uppercase">Belum Berkunjung</div>
+                  <div className="text-[11px] font-bold text-white/70 tracking-widest uppercase">Belum Terrealisasi</div>
                   <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-xl backdrop-blur-md border border-white/10">
                     <Clock3 size={18} />
                   </div>
                 </div>
                 <div className="mt-2">
-                  <div className="text-4xl font-bold tracking-tight">86 <span className="text-sm font-medium text-white/60 tracking-normal ml-2">Total Leads</span></div>
+                  <div className="text-4xl font-bold tracking-tight">{monthlyStats.belum} <span className="text-sm font-medium text-white/60 tracking-normal ml-2">Sisa Jadwal</span></div>
                   <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
                     <TrendingUp size={12} className="text-amber-400" />
-                    <span className="text-[10px] font-bold tracking-wide uppercase opacity-70">Butuh Follow-up Segera</span>
+                    <span className="text-[10px] font-bold tracking-wide uppercase opacity-70">Follow-up Segera</span>
                   </div>
                 </div>
               </div>
@@ -221,7 +290,7 @@ export default function KunjunganSite() {
             <div className="flex flex-col xl:flex-row items-center justify-between gap-4 pt-2">
                
                <div className="flex bg-slate-100/60 p-1 rounded-xl w-full xl:w-auto gap-1 border border-slate-200/40 backdrop-blur-sm shrink-0">
-                {['Belum berkunjung', 'Sudah berkunjung'].map(tab => (
+                {['Belum', 'Sudah'].map(tab => (
                   <button 
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -334,12 +403,12 @@ export default function KunjunganSite() {
                       <button 
                         onClick={() => requestStatusChange(item.id, item.status)}
                         className={`mx-auto px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border flex items-center justify-center min-w-[100px] shadow-sm ${
-                          item.status === 'Sudah berkunjung' 
+                          item.status === 'Sudah' 
                           ? 'bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-100' 
                           : 'bg-slate-50 text-slate-500 border-slate-100 hover:bg-slate-900 hover:text-white'
                         }`}
                       >
-                        {item.status.split(' ')[0]}
+                        {item.status}
                       </button>
                     </td>
                   </tr>
@@ -380,6 +449,14 @@ export default function KunjunganSite() {
               </div>
 
               <form onSubmit={handleAddSchedule} className="p-8 space-y-6">
+                {loading && (
+                  <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-50 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Memproses ke Lark...</span>
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Nama Leads</label>

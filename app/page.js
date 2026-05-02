@@ -81,11 +81,11 @@ export default function Home() {
               <div className="flex-1 text-center md:text-left">
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-6">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                  Ekosistem Research Space
+                  Ekosistem Space-Clientins
                 </div>
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
                   Selamat Datang Kembali,<br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Administrator Y-Space</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">Administrator Space-Clientins</span>
                 </h2>
                 <p className="text-slate-400 text-lg max-w-xl leading-relaxed font-medium">
                   Monitor dan kelola ekosistem properti Anda dengan presisi melalui modul terintegrasi.
@@ -168,7 +168,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-transparent" />
             <div className="text-center md:text-left relative z-10">
               <h4 className="text-xl font-bold text-white tracking-tight mb-1">Bantuan Teknis</h4>
-              <p className="text-slate-400 text-sm font-medium opacity-80">Butuh bantuan? Hubungi tim support developer Research Space.</p>
+              <p className="text-slate-400 text-sm font-medium opacity-80">Butuh bantuan? Hubungi tim support developer Space-Clientins.</p>
             </div>
             <button className="px-8 py-4 bg-white text-slate-900 rounded-2xl text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-blue-600 hover:text-white transition-all shadow-xl relative z-10">
               Buka Tiket Support

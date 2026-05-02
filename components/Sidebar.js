@@ -138,7 +138,7 @@ export default function Sidebar({ activeMenu }) {
         <div className={`flex items-center rounded-xl transition-all duration-300 group ${isCollapsed ? 'justify-center p-0 h-11' : 'gap-3 p-2 hover:bg-slate-50/50'}`}>
           <div className="relative flex-shrink-0">
             <img 
-              src="https://ui-avatars.com/api/?name=Y+Space&background=f1f5f9&color=64748b" 
+              src="https://ui-avatars.com/api/?name=Space+Clientins&background=f1f5f9&color=64748b" 
               className="w-8 h-8 rounded-lg shadow-sm group-hover:scale-105 transition-transform" 
               alt="Avatar" 
             />
@@ -146,7 +146,7 @@ export default function Sidebar({ activeMenu }) {
           </div>
           {!isCollapsed && (
             <div className="flex flex-col overflow-hidden animate-fadeIn">
-              <span className="text-xs font-bold text-slate-800 truncate tracking-tight">Y-Space Admin</span>
+              <span className="text-xs font-bold text-slate-800 truncate tracking-tight">Research Space Admin</span>
               <span className="text-[9px] text-slate-400 font-medium tracking-wide">System Management</span>
             </div>
           )}
