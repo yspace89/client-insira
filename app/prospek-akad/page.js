@@ -43,7 +43,7 @@ export default function Dashboard() {
       'Budi Santoso', 'Siti Aminah', 'Hendro Wibowo', 'Dewi Lestari', 'Eko Prasetyo',
       'Rina Sulistyo', 'Ahmad Dani', 'Maya Indah', 'Joko Anwar', 'Fitriani'
     ];
-    const statusPool = ['Bayar NUP', 'Bayar Booking Fee', 'Sudah Pilih Unit - Belum Akad', 'Proses Akad', 'Sudah Akad'];
+    const statusPool = ['Bayar NUP', 'Bayar Booking Fee', 'Sudah Pilih Unit', 'Proses Akad', 'Sudah Akad'];
     const schemas = ['Cash', 'Angsur 3 bln', 'Cash', 'Angsur 3 bln', 'Cash', 'Angsur 3 bln', 'Cash', 'Angsur 3 bln', 'Cash', 'Angsur 3 bln'];
     const initialNotes = ['Proses SP3K', 'Menunggu pelunasan DP', '', 'Berkas lengkap', '', 'Menunggu konfirmasi bank', 'Siap akad', '', '', 'Pemberkasan KPR'];
 
@@ -57,7 +57,7 @@ export default function Dashboard() {
 
     const data = names.map((name, index) => {
       const status = statusPool[index % statusPool.length];
-      const hasUnit = status === 'Sudah Pilih Unit - Belum Akad' || status === 'Proses Akad' || status === 'Sudah Akad';
+      const hasUnit = status === 'Sudah Pilih Unit' || status === 'Proses Akad' || status === 'Sudah Akad';
       const unitCount = hasUnit ? (index % 3 === 0 ? Math.floor(Math.random() * 9) + 2 : 1) : 0;
       const unitList = Array.from({ length: unitCount }, () => generateUnit());
       
@@ -120,71 +120,136 @@ export default function Dashboard() {
     setNupData(prev => prev.map(i => i.id === id ? { ...i, acadDate: date } : i));
   };
 
+  const startEditingNote = (id, currentNote) => {
+    setEditingNoteId(id);
+    setEditNoteValue(currentNote || "");
+  };
+
+  const saveNote = (id) => {
+    handleNoteChange(id, editNoteValue);
+    setEditingNoteId(null);
+  };
+
   return (
     <div className="flex min-h-screen bg-slate-50/50">
       <Sidebar activeMenu="Prospek Akad" />
 
-      <main className="flex-1 p-6 md:p-10 overflow-hidden">
+      <main className="flex-1 p-6 md:p-8 overflow-hidden relative">
         <Header title="Prospek Akad" />
 
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
-          <div className="flex bg-slate-200/40 p-1 rounded-xl w-fit gap-1 border border-slate-100">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-6">
+          <div className="flex items-center gap-4">
+             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-800 shadow-xl shadow-slate-200/50 border border-slate-100">
+                <Rocket size={24} className="text-blue-600" />
+             </div>
+             <div>
+                <h1 className="text-xl font-bold text-slate-800 tracking-tight">Daftar Customer Prospek akad</h1>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Pantau Alur Konversi NUP Hingga Akad Final</p>
+             </div>
+          </div>
+          <div className="flex bg-slate-100/60 p-1 rounded-xl w-full lg:w-auto gap-1 border border-slate-200/40 backdrop-blur-sm">
             {['Semua', 'Kuartal ini', 'Kuartal Sebelumnya'].map(tab => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 text-[11px] font-bold uppercase tracking-widest rounded-lg transition-all ${activeTab === tab ? 'bg-white text-blue-600 shadow-sm border border-slate-100' : 'text-slate-500 hover:text-slate-800'}`}
+                className={`px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all duration-300 ${activeTab === tab ? 'bg-white text-blue-600 shadow-md border border-slate-100' : 'text-slate-500 hover:text-slate-800'}`}
               >
                 {tab}
               </button>
             ))}
           </div>
-          <button className="bg-slate-900 text-white px-8 py-3.5 rounded-2xl text-[11px] font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200">
-            <UserPlus size={18} />
-            Input Prospek Baru
-          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
-          {[
-            { label: 'Total Prospek', val: totalProspek, icon: Users2, color: 'text-blue-500', bg: 'bg-blue-50/50' },
-            { label: 'Belum Akad', val: belumAkad, icon: Clock, color: 'text-amber-500', bg: 'bg-amber-50/50' },
-            { label: 'Sudah Akad', val: sudahAkad, icon: Trophy, color: 'text-emerald-500', bg: 'bg-emerald-50/50' }
-          ].map((item, i) => (
-            <div key={i} className="bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-md transition-all group">
-               <div className="flex justify-between items-start mb-4">
-                  <div className={`w-10 h-10 flex items-center justify-center rounded-xl ${item.bg} ${item.color} group-hover:scale-105 transition-transform`}>
-                    <item.icon size={20} strokeWidth={2} />
-                  </div>
-                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">{item.label}</div>
-               </div>
-               <div className="text-3xl font-bold text-slate-800 tracking-tight leading-none">{item.val}</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          {/* Total Prospek */}
+          <div className="bg-white flex flex-col justify-between shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 rounded-2xl">
+            <div className="flex justify-between items-start mb-1">
+              <div>
+                <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Total Prospek</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-slate-900 tracking-tight">{totalProspek}</span>
+                </div>
+              </div>
+              <div className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-500 rounded-xl shadow-inner">
+                <Users2 size={18} strokeWidth={2.5} />
+              </div>
             </div>
-          ))}
+            <div className="mt-4 h-5"></div>
+          </div>
 
-          <div className="bg-slate-900 rounded-[1.5rem] p-6 text-white shadow-2xl shadow-blue-200 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl -mr-16 -mt-16" />
+          {/* Belum Akad */}
+          <div className="bg-white flex flex-col justify-between shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 rounded-2xl">
+            <div className="flex justify-between items-start mb-1">
+              <div>
+                <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Belum Akad</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-slate-900 tracking-tight">{belumAkad}</span>
+                </div>
+              </div>
+              <div className="w-10 h-10 flex items-center justify-center bg-amber-50 text-amber-500 rounded-xl shadow-inner">
+                <Clock size={18} strokeWidth={2.5} />
+              </div>
+            </div>
+            <div className="flex items-center gap-2 mt-4">
+              <span className={`inline-flex items-center justify-center px-2 py-0.5 rounded text-[9px] font-bold border ${
+                (belumAkad/totalProspek * 100) > 70 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100'
+              }`}>
+                {Math.round(belumAkad/totalProspek * 100)}% dari Total Prospek
+              </span>
+            </div>
+          </div>
+
+          {/* Sudah Akad */}
+          <div className="bg-white flex flex-col justify-between shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 rounded-2xl">
+            <div className="flex justify-between items-start mb-1">
+              <div>
+                <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Sudah Akad</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-slate-900 tracking-tight">{sudahAkad}</span>
+                </div>
+              </div>
+              <div className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-xl shadow-inner">
+                <Trophy size={18} strokeWidth={2.5} />
+              </div>
+            </div>
+            <div className="flex items-center gap-2 mt-4">
+              <span className={`inline-flex items-center justify-center px-2 py-0.5 rounded text-[9px] font-bold border ${
+                (sudahAkad/totalProspek * 100) > 70 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100'
+              }`}>
+                {Math.round(sudahAkad/totalProspek * 100)}% dari Total Prospek
+              </span>
+            </div>
+          </div>
+
+          {/* Konversi */}
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white border-none shadow-blue-200/40 relative overflow-hidden flex flex-col justify-between min-h-[140px] hover:-translate-y-0.5 transition-all duration-300 p-6 rounded-2xl">
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shine_4s_ease-in-out_infinite]" />
             <div className="relative z-10 flex h-full flex-col justify-between">
-               <div className="flex justify-between items-start mb-4">
-                  <div className="w-10 h-10 flex items-center justify-center bg-white/5 text-blue-400 rounded-xl">
-                    <Rocket size={20} strokeWidth={1.5} />
+               <div className="flex justify-between items-start">
+                  <div>
+                    <div className="text-[11px] font-bold text-white/70 tracking-widest uppercase">Konversi</div>
+                    <div className="text-4xl font-bold tracking-tight mt-2">{conversionRate}%</div>
                   </div>
-                  <div className="text-[9px] font-bold text-blue-400 uppercase tracking-widest leading-none">Konversi</div>
+                  <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-xl backdrop-blur-md border border-white/10">
+                    <Rocket size={18} />
+                  </div>
                </div>
-               <div className="text-3xl font-bold tracking-tight leading-none">{conversionRate}%</div>
+               <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
+                  <span className="text-[10px] font-bold tracking-wide uppercase opacity-70">Booking Fee ke Sudah Akad</span>
+               </div>
             </div>
           </div>
         </div>
 
         <div className="bg-white rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.02)] border border-slate-100 overflow-hidden mb-10">
           <div className="p-8 flex flex-col lg:flex-row justify-between items-center gap-8 border-b border-slate-50/60">
-            <h2 className="text-lg font-bold text-slate-800 tracking-tight">Database Prospek <span className="ml-4 px-2 py-0.5 bg-blue-50 text-blue-500 rounded text-[10px] font-bold border border-blue-100">{filteredData.length} Data</span></h2>
+            <h2 className="text-lg font-bold text-slate-800 tracking-tight">Daftar Prospek Akad <span className="ml-4 px-2 py-0.5 bg-blue-50 text-blue-500 rounded text-[10px] font-bold border border-blue-100">{filteredData.length} Data</span></h2>
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
               <div className="relative flex-1 sm:w-72">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                 <input 
                   type="text" 
-                  placeholder="Cari prospek..." 
+                  placeholder="Cari Nama Customer atau NUP" 
                   className="w-full pl-11 pr-4 py-3 text-xs bg-slate-50/50 border border-slate-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-200 transition-all font-medium outline-none"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -199,7 +264,7 @@ export default function Dashboard() {
                   <option>Semua Status</option>
                   <option>Bayar NUP</option>
                   <option>Bayar Booking Fee</option>
-                  <option>Sudah Pilih Unit - Belum Akad</option>
+                  <option>Sudah Pilih Unit</option>
                   <option>Proses Akad</option>
                   <option>Sudah Akad</option>
                 </select>
@@ -234,7 +299,7 @@ export default function Dashboard() {
                   <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
                   <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tahapan</th>
                   <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Jadwal Akad</th>
-                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Aksi</th>
+                  <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Catatan Progres</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -253,7 +318,7 @@ export default function Dashboard() {
                       <td className="px-8 py-6">
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-slate-800 tracking-tight uppercase">{item.nup}</span>
-                          {(item.status === 'Sudah Pilih Unit - Belum Akad' || item.status === 'Proses Akad' || item.status === 'Sudah Akad') && (
+                          {(item.status === 'Sudah Pilih Unit' || item.status === 'Proses Akad' || item.status === 'Sudah Akad') && (
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -266,7 +331,7 @@ export default function Dashboard() {
                               }}
                               className="text-[10px] text-blue-600 font-bold uppercase tracking-widest w-fit mt-1.5 hover:text-blue-800"
                             >
-                              Detail Unit ({item.units.length})
+                              lihat unit
                             </button>
                           )}
                         </div>
@@ -275,46 +340,103 @@ export default function Dashboard() {
                       <td className="px-8 py-6">
                         <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest border ${
                           item.status === 'Sudah Akad' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
-                          item.status === 'Proses Akad' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-slate-100 text-slate-500 border-slate-200'
+                          item.status === 'Proses Akad' ? 'bg-rose-50 text-rose-600 border-rose-100' : 
+                          item.status === 'Sudah Pilih Unit' ? 'bg-violet-50 text-violet-600 border-violet-100' :
+                          item.status === 'Bayar Booking Fee' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                          'bg-amber-50 text-amber-600 border-amber-100'
                         }`}>
                           {item.status}
                         </span>
                       </td>
                       <td className="px-8 py-6" onClick={e => e.stopPropagation()}>
-                         <div 
-                            className="group/date flex items-center gap-2.5 cursor-pointer hover:bg-white px-3 py-1.5 rounded-lg transition-all w-fit border border-transparent hover:border-slate-100"
-                            onClick={() => { setEditingAcadId(item.id); setTempAcadDate(item.acadDate || ""); }}
-                          >
-                            <Calendar size={14} className="text-slate-300 group-hover/date:text-blue-500 transition-colors" />
-                            <span className={`text-[10px] font-bold uppercase tracking-widest ${item.acadDate ? "text-slate-700" : "text-slate-300"}`}>
-                              {item.acadDate ? new Date(item.acadDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : "Input Tanggal"}
-                            </span>
-                          </div>
+                        <div className="relative group/date flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-100 rounded-xl hover:border-blue-200 transition-all cursor-pointer">
+                          <input 
+                            type="date"
+                            className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                            value={item.acadDate || ""}
+                            onChange={(e) => handleAcadDateUpdate(item.id, e.target.value)}
+                            onClick={(e) => e.target.showPicker && e.target.showPicker()}
+                          />
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${item.acadDate ? "text-slate-700" : "text-slate-300"}`}>
+                            {item.acadDate ? new Date(item.acadDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : "Belum ditentukan"}
+                          </span>
+                          <Calendar size={14} className="text-slate-300 group-hover/date:text-blue-500" />
+                        </div>
                       </td>
-                      <td className="px-8 py-6 text-right">
-                        <button className="px-5 py-2.5 bg-slate-50 text-slate-600 hover:bg-slate-900 hover:text-white text-[10px] font-bold uppercase tracking-widest rounded-xl transition-all border border-slate-100 shadow-sm">
-                          Timeline
-                        </button>
+                      <td className="px-8 py-8" onClick={e => e.stopPropagation()}>
+                        <div className="flex flex-col gap-2">
+                          {editingNoteId === item.id ? (
+                            <div className="flex flex-col gap-2 w-full animate-fadeIn bg-white p-3 rounded-2xl border-2 border-blue-100 shadow-lg z-20">
+                              <textarea 
+                                className="w-full bg-slate-50 rounded-xl px-4 py-3 text-xs font-medium outline-none min-h-[100px] resize-none"
+                                value={editNoteValue}
+                                onChange={(e) => setEditNoteValue(e.target.value)}
+                                placeholder="Tulis catatan progres di sini..."
+                                autoFocus
+                              />
+                              <div className="flex justify-end gap-2">
+                                <button 
+                                  onClick={() => setEditingNoteId(null)}
+                                  className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600"
+                                >
+                                  Batal
+                                </button>
+                                <button 
+                                  onClick={() => saveNote(item.id)}
+                                  className="px-6 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md flex items-center gap-2"
+                                >
+                                  <Check size={14} />
+                                  Simpan
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-start justify-between group/note w-full px-4 py-3 bg-slate-50/50 border border-slate-100 rounded-xl hover:bg-white hover:border-blue-100 transition-all min-h-[48px]">
+                              <span className={`text-[11px] font-medium leading-relaxed ${item.notes ? "text-slate-600" : "text-slate-300 italic"}`}>
+                                {item.notes || "Belum ada catatan..."}
+                              </span>
+                              <button 
+                                onClick={() => startEditingNote(item.id, item.notes)}
+                                className="opacity-0 group-hover/note:opacity-100 p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all shrink-0"
+                              >
+                                <Edit2 size={12} />
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </td>
                     </tr>
                     
                     {expandedRowId === item.id && (
                       <tr className="bg-slate-50/20 animate-fadeIn">
                         <td colSpan="6" className="px-12 py-10">
-                          <div className="flex flex-col md:flex-row gap-8">
+                           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
                              {[
-                                { label: 'Registrasi', val: 'Terverifikasi', date: item.regDate, icon: UserPlus, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                                { label: 'Pembayaran NUP', val: 'Terkonfirmasi', date: item.nupDate, icon: ClipboardList, color: 'text-amber-600', bg: 'bg-amber-50' },
-                                { label: 'Booking Fee', val: 'Terbayar', date: item.bookingFeeDate, icon: Box, color: 'text-blue-600', bg: 'bg-blue-50', show: item.status !== 'Bayar NUP' }
+                                { label: 'Daftar', val: 'Rp 1.627.590', percent: '2%', date: item.regDate, dateLabel: 'Tanggal Daftar', icon: UserPlus, color: 'text-indigo-600', bg: 'bg-indigo-50', user: 'Zulkipli Nasution' },
+                                { label: 'NUP', val: 'Rp 2.441.385', percent: '5%', date: item.nupDate, dateLabel: 'Tanggal Bayar', icon: ClipboardList, color: 'text-amber-600', bg: 'bg-amber-50', user: 'Zulkipli Nasution' },
+                                { label: 'Booking Fee', val: 'Rp 3.575.918', percent: '10%', date: item.bookingFeeDate, dateLabel: 'Tanggal Bayar', icon: Box, color: 'text-blue-600', bg: 'bg-blue-50', show: item.status !== 'Bayar NUP', user: 'Zulkipli Nasution' }
                              ].filter(c => c.show !== false).map((card, i) => (
-                               <div key={i} className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5 group/card hover:shadow-md transition-all">
-                                  <div className={`w-12 h-12 flex items-center justify-center rounded-xl ${card.bg} ${card.color} group-hover/card:scale-105 transition-transform`}>
-                                    <card.icon size={24} strokeWidth={2} />
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">{card.label}</span>
+                               <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all border-l-4 border-l-blue-500">
+                                  <div className="flex justify-between items-start mb-3">
+                                    <div className="flex items-center gap-2">
+                                      <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded uppercase tracking-wider">{card.label} ({card.percent})</span>
+                                    </div>
                                     <span className="text-sm font-bold text-slate-800 tracking-tight">{card.val}</span>
-                                    <span className="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-1">{new Date(card.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                  </div>
+                                  
+                                  <div className="flex items-center gap-4 pt-3 border-t border-slate-50">
+                                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-xs font-bold text-slate-400 shadow-inner">
+                                      {card.user.charAt(0)}
+                                    </div>
+                                    <div className="flex flex-col">
+                                      <span className="text-xs font-bold text-slate-700 leading-tight">{card.user}</span>
+                                      <span className="text-[10px] text-slate-400 font-bold tracking-tight uppercase mb-1">{item.role} • {item.company}</span>
+                                      <div className="flex items-center gap-1 mt-0.5">
+                                        <span className="text-[11px] text-slate-500 font-bold tabular-nums leading-none">
+                                          {card.dateLabel} : {new Date(card.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
                                </div>
                              ))}
