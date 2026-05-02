@@ -195,32 +195,41 @@ export default function KunjunganSite() {
       <main className="flex-1 p-6 md:p-8 overflow-hidden relative">
         <Header title="Kunjungan Site" />
 
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-6">
-          <div className="flex items-center gap-4">
-             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-800 shadow-xl shadow-slate-200/50 border border-slate-100">
-                <MapPin size={24} />
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+          <div className="flex items-center gap-5">
+             <div className="w-14 h-14 bg-white rounded-[1.25rem] flex items-center justify-center text-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100/80 group hover:scale-105 transition-all duration-300">
+                <MapPin size={26} className="group-hover:text-blue-600 transition-colors" />
              </div>
              <div>
-                <h1 className="text-xl font-bold text-slate-800 tracking-tight">Manajemen Kunjungan</h1>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Pantau Aktivitas Site Visit Properti</p>
+                <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Kunjungan</h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">Sistem Pemantauan Site Visit Properti Terpadu</p>
+                </div>
              </div>
           </div>
           <button 
             onClick={() => setShowAddModal(true)}
-            className="bg-slate-900 text-white px-8 py-3.5 rounded-2xl text-[11px] font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200"
+            className="bg-slate-900 text-white px-8 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-blue-600 hover:shadow-2xl hover:shadow-blue-500/20 transition-all shadow-xl shadow-slate-200 group active:scale-95"
           >
-            <Plus size={18} />
+            <div className="w-6 h-6 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors">
+              <Plus size={16} />
+            </div>
             Jadwalkan Kunjungan Baru
           </button>
         </div>
 
         {/* SUMMARY SECTION */}
-        <section className="mb-8">
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-8 px-2">
+            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Jadwal Kunjungan Bulan ini</h2>
+            <div className="h-px flex-1 bg-slate-200/60" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className={`bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 ${cardRound}`}>
               <div className="flex justify-between items-start mb-1">
                 <div>
-                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Target Kunjungan {monthlyStats.monthName}</div>
+                  <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Total Jadwal Kunjungan Bulan {monthlyStats.monthName}</div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.total}</span>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Jadwal</span>
@@ -232,16 +241,15 @@ export default function KunjunganSite() {
               </div>
               <div className="flex items-center gap-2 mt-4">
                 <span className="inline-flex items-center justify-center bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-[9px] font-bold border border-blue-100">
-                  Parameter Bulanan
+                  Total Jadwal Parameter Bulanan
                 </span>
-                <span className="text-[10px] font-semibold text-slate-400">Database Lark</span>
               </div>
             </div>
 
             <div className={`bg-white flex flex-col justify-between ${cardShadow} border border-slate-100/50 hover:-translate-y-0.5 transition-all duration-300 p-6 ${cardRound}`}>
                <div className="flex justify-between items-start mb-1">
                   <div>
-                    <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Realisasi Datang</div>
+                    <div className="text-[11px] font-bold text-slate-400 mb-2 tracking-widest uppercase">Sudah Kunjungan</div>
                     <div className="text-4xl font-bold text-slate-900 tracking-tight">{monthlyStats.sudah}</div>
                   </div>
                   <div className="w-10 h-10 flex items-center justify-center bg-emerald-50 text-emerald-600 rounded-xl shadow-inner">
@@ -250,9 +258,8 @@ export default function KunjunganSite() {
                </div>
                <div className="flex items-center gap-2 mt-4">
                   <span className="inline-flex items-center justify-center bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded text-[9px] font-bold border border-emerald-100">
-                    {monthlyStats.total > 0 ? Math.round((monthlyStats.sudah / monthlyStats.total) * 100) : 0}% Tercapai
+                    {monthlyStats.total > 0 ? Math.round((monthlyStats.sudah / monthlyStats.total) * 100) : 0}% Dari total Jadwal
                   </span>
-                  <span className="text-[10px] font-semibold text-slate-400">Tingkat Kehadiran</span>
                </div>
             </div>
 
@@ -260,7 +267,7 @@ export default function KunjunganSite() {
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shine_4s_ease-in-out_infinite]" />
               <div className="relative z-10 flex flex-col justify-between h-full">
                 <div className="flex justify-between items-start">
-                  <div className="text-[11px] font-bold text-white/70 tracking-widest uppercase">Belum Terrealisasi</div>
+                  <div className="text-[11px] font-bold text-white/70 tracking-widest uppercase">Belum berkunjung</div>
                   <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-xl backdrop-blur-md border border-white/10">
                     <Clock3 size={18} />
                   </div>
@@ -269,7 +276,7 @@ export default function KunjunganSite() {
                   <div className="text-4xl font-bold tracking-tight">{monthlyStats.belum} <span className="text-sm font-medium text-white/60 tracking-normal ml-2">Sisa Jadwal</span></div>
                   <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
                     <TrendingUp size={12} className="text-amber-400" />
-                    <span className="text-[10px] font-bold tracking-wide uppercase opacity-70">Follow-up Segera</span>
+                    <span className="text-[10px] font-bold tracking-wide uppercase opacity-70">Perlu Follow-up Segera</span>
                   </div>
                 </div>
               </div>
@@ -279,11 +286,11 @@ export default function KunjunganSite() {
 
         {/* DATABASE SECTION */}
         <div className={`bg-white ${cardRound} ${cardShadow} border border-slate-100/50 overflow-hidden mb-10`}>
-          <div className="p-8 border-b border-slate-50">
+          <div className="p-8 border-b border-slate-50/60">
             <div className="flex justify-between items-center mb-6">
-               <h2 className="text-xl font-bold text-slate-800 tracking-tight flex items-center gap-3">
-                  Database Kunjungan
-                  <span className="bg-slate-100 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-widest leading-none">{filteredData.length} Data ditemukan</span>
+               <h2 className="text-lg font-bold text-slate-800 tracking-tight flex items-center gap-3">
+                  Daftar Jadwal Semua Kunjungan
+                  <span className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-500 rounded text-[10px] font-bold border border-blue-100">{filteredData.length} Data</span>
                </h2>
             </div>
             
@@ -303,25 +310,29 @@ export default function KunjunganSite() {
 
               <div className="flex flex-col md:flex-row items-center gap-4 w-full xl:w-auto flex-1 justify-end">
                  
-                 <div className="flex items-center gap-3 bg-slate-50/50 p-1 rounded-xl border border-slate-100/50 w-full md:w-auto shrink-0">
-                    <div className="relative flex-1 md:w-36">
-                      <Calendar size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input 
-                        type="date" 
-                        className="w-full pl-8 pr-2 py-2.5 bg-white border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600 outline-none focus:border-blue-500 transition-all"
-                        value={dateRange.start}
-                        onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                      />
-                    </div>
-                    <ArrowLeftRight size={12} className="text-slate-300" />
-                    <div className="relative flex-1 md:w-36">
-                      <Calendar size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input 
-                        type="date" 
-                        className="w-full pl-8 pr-2 py-2.5 bg-white border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600 outline-none focus:border-blue-500 transition-all"
-                        value={dateRange.end}
-                        onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                      />
+                 {/* RANGE DATE FILTER */}
+                 <div className="flex flex-col gap-1.5 w-full md:w-auto">
+                    <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest px-1">Filter Jadwal Kunjungan</label>
+                    <div className="flex items-center gap-3 bg-slate-50/50 p-1 rounded-xl border border-slate-100/50 w-full md:w-auto shrink-0">
+                        <div className="relative flex-1 md:w-36">
+                          <Calendar size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                          <input 
+                            type="date" 
+                            className="w-full pl-8 pr-2 py-2.5 bg-white border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600 outline-none focus:border-blue-500 transition-all"
+                            value={dateRange.start}
+                            onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+                          />
+                        </div>
+                        <ArrowLeftRight size={12} className="text-slate-300" />
+                        <div className="relative flex-1 md:w-36">
+                          <Calendar size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                          <input 
+                            type="date" 
+                            className="w-full pl-8 pr-2 py-2.5 bg-white border border-slate-100 rounded-lg text-[10px] font-bold text-slate-600 outline-none focus:border-blue-500 transition-all"
+                            value={dateRange.end}
+                            onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
+                          />
+                        </div>
                     </div>
                  </div>
 
