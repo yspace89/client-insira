@@ -216,7 +216,7 @@ export default function KunjunganSite() {
                 <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Manajemen Kunjungan</h1>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">Sistem Pemantauan Site Visit Properti Terpadu</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">Sistem Pemantauan Site Visit Insira</p>
                 </div>
              </div>
           </div>
