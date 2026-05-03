@@ -17,7 +17,8 @@ import {
   ChevronDown,
   Rocket,
   ArrowRight,
-  Clock
+  Clock,
+  Timer
 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
@@ -338,15 +339,29 @@ export default function Dashboard() {
                       </td>
                       <td className="px-8 py-6 text-sm font-bold text-slate-800 tracking-tight">{item.customer}</td>
                       <td className="px-8 py-6">
-                        <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest border ${
-                          item.status === 'Sudah Akad' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
-                          item.status === 'Proses Akad' ? 'bg-rose-50 text-rose-600 border-rose-100' : 
-                          item.status === 'Sudah Pilih Unit' ? 'bg-violet-50 text-violet-600 border-violet-100' :
-                          item.status === 'Bayar Booking Fee' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                          'bg-amber-50 text-amber-600 border-amber-100'
-                        }`}>
-                          {item.status}
-                        </span>
+                        <div className="flex flex-col gap-2">
+                          <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest border self-start ${
+                            item.status === 'Sudah Akad' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                            item.status === 'Proses Akad' ? 'bg-rose-50 text-rose-600 border-rose-100' : 
+                            item.status === 'Sudah Pilih Unit' ? 'bg-violet-50 text-violet-600 border-violet-100' :
+                            item.status === 'Bayar Booking Fee' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                            'bg-amber-50 text-amber-600 border-amber-100'
+                          }`}>
+                            {item.status}
+                          </span>
+                          
+                          {(item.status === 'Sudah Pilih Unit' || item.status === 'Proses Akad') && (
+                            <div className="mt-2 flex flex-col gap-1.5 border-l-2 border-slate-100 pl-3">
+                              <div className="flex items-center gap-2">
+                                <Timer size={12} className="text-slate-400" />
+                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Jadwal Cabut Unit</span>
+                              </div>
+                              <span className="text-[11px] font-bold text-slate-600 tracking-tight pl-5">
+                                Senin, 3 Okt 2026 <span className="text-blue-500 font-extrabold ml-1">· 3 Hari lagi</span>
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </td>
                       <td className="px-8 py-6" onClick={e => e.stopPropagation()}>
                         <div className="relative group/date flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-100 rounded-xl hover:border-blue-200 transition-all cursor-pointer">
