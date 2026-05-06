@@ -54,7 +54,6 @@ const SimulatorModal = ({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={confirmSave} className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20 active:scale-95"><Save size={14} /> Simpan Perubahan</button>
             <button onClick={onClose} className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-red-400 hover:bg-white/10 transition-all"><X size={16} /></button>
           </div>
         </div>
@@ -213,7 +212,7 @@ const SimulatorModal = ({
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-[1.5rem] p-6 shadow-2xl space-y-4 mt-auto">
+              <div className="bg-slate-900 rounded-[1.5rem] p-6 shadow-2xl space-y-6 mt-auto">
                 <div className="flex items-center justify-between border-b border-white/5 pb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 bg-blue-500 text-white rounded-lg flex items-center justify-center"><Receipt size={12} /></div>
@@ -231,6 +230,12 @@ const SimulatorModal = ({
                     <div className="text-[6px] font-bold text-slate-500 uppercase italic">PPN Included</div>
                   </div>
                 </div>
+                <button 
+                  onClick={confirmSave} 
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-600/20 active:scale-[0.98] flex items-center justify-center gap-3"
+                >
+                  <Save size={18} /> Integrasikan ke settingan Unit {activeConfigUnit}
+                </button>
               </div>
             </div>
           </div>

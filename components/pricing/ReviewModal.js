@@ -49,7 +49,9 @@ const ReviewModal = ({
                       {hasPromo ? formatCurrency(configs[unit].seasonalPreNeed) : '-'}
                     </span>
                     {hasPromo && (
-                      <span className="w-fit px-2 py-0.5 bg-emerald-500 text-white text-[7px] font-black rounded-md uppercase tracking-widest animate-pulse">Berlaku</span>
+                      <span className="w-fit px-2 py-1 bg-emerald-500 text-white text-[7px] font-black rounded-md uppercase tracking-widest animate-pulse">
+                        Berlaku s/d {new Date(globalPromo.endDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </span>
                     )}
                   </div>
                   <div className="col-span-3 flex flex-wrap gap-2">
