@@ -92,9 +92,15 @@ export default function PricingPage() {
     
     Object.keys(configs).forEach(unit => {
       const cfg = configs[unit];
+      const hasPromo = cfg.seasonalPreNeed > 0;
+      
       text += `🏢 *${unit.toUpperCase()}*\n`;
-      text += `• Harga Master: ${formatCurrency(cfg.masterPreNeed)}\n`;
-      if (cfg.seasonalPreNeed > 0) text += `• Harga Promo: ${formatCurrency(cfg.seasonalPreNeed)}\n`;
+      if (hasPromo) {
+        text += `• ~Harga Normal: ${formatCurrency(cfg.masterPreNeed)}~\n`;
+        text += `• *HARGA PROMO: ${formatCurrency(cfg.seasonalPreNeed)}* 🔥\n`;
+      } else {
+        text += `• Harga: ${formatCurrency(cfg.masterPreNeed)}\n`;
+      }
       
       [...cfg.tiers].sort((a, b) => a.minQty - b.minQty).forEach(t => {
         text += `• Ambil ${t.minQty} Unit: Potongan ${formatCurrency(t.discount)} ${cfg.discountType === 'per-unit' ? '/Unit' : 'Total'}\n`;

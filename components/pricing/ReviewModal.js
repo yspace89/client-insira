@@ -36,20 +36,32 @@ const ReviewModal = ({
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Harga Promo</span>
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest col-span-3">Aturan Diskon (Tiers)</span>
             </div>
-            {Object.keys(configs).map(unit => (
-              <div key={unit} className="grid grid-cols-6 px-6 py-5 bg-white border border-slate-100 rounded-2xl hover:border-blue-200 transition-all group">
-                <span className="font-black text-slate-800">{unit}</span>
-                <span className="font-bold text-slate-500">{formatCurrency(configs[unit].masterPreNeed)}</span>
-                <span className="font-black text-blue-600">{configs[unit].seasonalPreNeed > 0 ? formatCurrency(configs[unit].seasonalPreNeed) : '-'}</span>
-                <div className="col-span-3 flex flex-wrap gap-2">
-                  {[...configs[unit].tiers].sort((a,b)=>a.minQty-b.minQty).map(t => (
-                    <span key={t.id} className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-black border border-emerald-100 italic">
-                      Ambil {t.minQty} Unit → -{formatCurrency(t.discount)}
+            {Object.keys(configs).map(unit => {
+              const hasPromo = configs[unit].seasonalPreNeed > 0;
+              return (
+                <div key={unit} className="grid grid-cols-6 px-6 py-5 bg-white border border-slate-100 rounded-2xl hover:border-blue-200 transition-all group">
+                  <span className="font-black text-slate-800">{unit}</span>
+                  <span className={`font-bold ${hasPromo ? 'text-slate-300 line-through' : 'text-slate-500'}`}>
+                    {formatCurrency(configs[unit].masterPreNeed)}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className={`font-black ${hasPromo ? 'text-blue-600' : 'text-slate-300'}`}>
+                      {hasPromo ? formatCurrency(configs[unit].seasonalPreNeed) : '-'}
                     </span>
-                  ))}
+                    {hasPromo && (
+                      <span className="w-fit px-2 py-0.5 bg-emerald-500 text-white text-[7px] font-black rounded-md uppercase tracking-widest animate-pulse">Berlaku</span>
+                    )}
+                  </div>
+                  <div className="col-span-3 flex flex-wrap gap-2">
+                    {[...configs[unit].tiers].sort((a,b)=>a.minQty-b.minQty).map(t => (
+                      <span key={t.id} className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-black border border-emerald-100 italic">
+                        Ambil {t.minQty} Unit → -{formatCurrency(t.discount)}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="bg-blue-50 rounded-3xl p-8 flex items-center justify-between border border-blue-100">
