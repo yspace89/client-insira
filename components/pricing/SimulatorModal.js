@@ -34,7 +34,8 @@ const SimulatorModal = ({
   simCategory, 
   setSimCategory, 
   simPayment, 
-  setSimPayment 
+  setSimPayment,
+  setIsConfirmModalOpen
 }) => {
   if (!isOpen) return null;
 
@@ -231,7 +232,7 @@ const SimulatorModal = ({
                   </div>
                 </div>
                 <button 
-                  onClick={confirmSave} 
+                  onClick={() => setIsConfirmModalOpen(true)} 
                   className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-600/20 active:scale-[0.98] flex items-center justify-center gap-3"
                 >
                   <Save size={18} /> Integrasikan ke settingan Unit {activeConfigUnit}

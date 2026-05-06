@@ -27,6 +27,7 @@ import PricingCard from '../../components/pricing/PricingCard';
 import DiscountConfig from '../../components/pricing/DiscountConfig';
 import SimulatorModal from '../../components/pricing/SimulatorModal';
 import ReviewModal from '../../components/pricing/ReviewModal';
+import ConfirmationModal from '../../components/pricing/ConfirmationModal';
 
 // Utilities
 import { formatCurrency, calculateForQty } from '../../lib/pricing-utils';
@@ -68,6 +69,7 @@ export default function PricingPage() {
   const [simPayment, setSimPayment] = useState('cash');
   const [isSimModalOpen, setIsSimModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState('idle');
 
   const updateGlobalPromo = (field, value) => {
@@ -84,7 +86,13 @@ export default function PricingPage() {
   };
 
   const removeTier = (unit, id) => updateConfig(unit, 'tiers', configs[unit].tiers.filter(t => t.id !== id));
-  const updateTier = (unit, id, field, value) => updateConfig(unit, 'tiers', configs[unit].tiers.map(t => t.id === id ? { ...t, [field]: Number(value) } : t));
+  const updateTier = (unit, id, field, value) => updateConfig(unit, 'tiers', configs[unit].tiers.map(t => {
+    if (t.id === id) {
+      const numVal = Number(value);
+      return { ...t, [field]: isNaN(numVal) ? 0 : numVal };
+    }
+    return t;
+  }));
 
   const generateShareText = () => {
     let text = `✨ *OFFICIAL PRICING & PROMO: ${globalPromo.name.toUpperCase()}* ✨\n`;
@@ -118,11 +126,14 @@ export default function PricingPage() {
 
   const confirmSave = () => {
     setSaveStatus('saving');
+    // Tutup modal simulator jika terbuka
+    setIsSimModalOpen(false);
+    
     setTimeout(() => {
       setSaveStatus('success');
       setIsReviewModalOpen(false);
       setTimeout(() => setSaveStatus('idle'), 3000);
-    }, 2000);
+    }, 1500);
   };
 
   const activeCfg = configs[activeConfigUnit];
@@ -357,6 +368,7 @@ export default function PricingPage() {
           setSimCategory={setSimCategory}
           simPayment={simPayment}
           setSimPayment={setSimPayment}
+          setIsConfirmModalOpen={setIsConfirmModalOpen}
         />
 
         <ReviewModal 
@@ -367,6 +379,13 @@ export default function PricingPage() {
           generateShareText={generateShareText}
           confirmSave={confirmSave}
           saveStatus={saveStatus}
+        />
+
+        <ConfirmationModal 
+          isOpen={isConfirmModalOpen}
+          onClose={() => setIsConfirmModalOpen(false)}
+          onConfirm={confirmSave}
+          message={`Apakah Anda yakin ingin mengintegrasikan konfigurasi simulasi ini ke settingan Unit ${activeConfigUnit}? Seluruh aturan tier diskon yang baru akan menggantikan aturan lama.`}
         />
       </main>
     </div>
