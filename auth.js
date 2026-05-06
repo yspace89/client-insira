@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
+import * as bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -13,28 +13,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        // Mock Database User - IN PRODUCTION: Fetch from your real database
-        const mockUser = {
-          id: "1",
-          name: "Admin Y Space",
-          email: "admin@yspace.id",
-          password: "$2b$10$0Lo6xysTO4iftgbq9EVKFOxvYePzDD7wRLZGKiVQENzTbfWTBKnv.", 
-        };
+        // Mock Database Users
+        const USERS = [
+          {
+            id: "1",
+            name: "Admin Y Space",
+            email: "admin@yspace.id",
+            password: "$2b$10$0Lo6xysTO4iftgbq9EVKFOxvYePzDD7wRLZGKiVQENzTbfWTBKnv.", 
+          },
+          {
+            id: "2",
+            name: "Guest Research",
+            email: "guest@research.id",
+            password: "$2b$10$JWCGkUdQGghT3AsyLRS8DOBtMER0on0Mbv3PzFHJh8OCkL30j/hDe", // password123
+          }
+        ];
 
-        if (credentials.email !== mockUser.email) {
+        const user = USERS.find(u => u.email.toLowerCase() === credentials.email.toLowerCase());
+
+        if (!user) {
+          console.log("Login failed: User not found ->", credentials.email);
           throw new Error("User not found");
         }
 
         const isPasswordCorrect = await bcrypt.compare(
           credentials.password,
-          mockUser.password
+          user.password
         );
 
         if (!isPasswordCorrect) {
+          console.log("Login failed: Incorrect password for ->", credentials.email);
           throw new Error("Incorrect password");
         }
 
-        return { id: mockUser.id, name: mockUser.name, email: mockUser.email };
+        console.log("Login success for ->", user.email);
+        return { id: user.id, name: user.name, email: user.email };
       }
     })
   ],
