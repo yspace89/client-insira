@@ -16,7 +16,9 @@ import {
   DollarSign,
   ShieldCheck,
   Zap,
-  Receipt
+  Receipt,
+  Activity,
+  TrendingDown
 } from 'lucide-react';
 
 // Pricing Components
@@ -285,27 +287,63 @@ export default function PricingPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 pb-20">
-              {/* DP & BOOKING */}
-              <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-10 group hover:shadow-md transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center"><Receipt size={18} strokeWidth={2.5} /></div>
-                  <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Aturan Down Payment</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-8">
-                  <PriceField label="Minimum DP" value={activeCfg.minDP} onChange={(v) => updateConfig(activeConfigUnit, 'minDP', v)} />
-                  <PriceField label="Booking Fee" value={activeCfg.minBooking} onChange={(v) => updateConfig(activeConfigUnit, 'minBooking', v)} />
+              {/* LEFT COLUMN: UNIT OVERVIEW & ANALYTICS */}
+              <div className="space-y-8">
+                <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm space-y-6 group hover:shadow-md transition-all">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center"><Activity size={18} strokeWidth={2.5} /></div>
+                      <h2 className="text-[11px] font-bold text-slate-800 uppercase tracking-widest">Status & Analitik Unit</h2>
+                    </div>
+                    <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-black uppercase">Aktif</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
+                      <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block mb-2">Selisih At/Pre Need</span>
+                      <span className="text-sm font-black text-slate-700">{formatCurrency(activeCfg.masterAtNeed - activeCfg.masterPreNeed)}</span>
+                    </div>
+                    <div className="p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
+                      <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block mb-2">Total Tier Promo</span>
+                      <span className="text-sm font-black text-slate-700">{activeCfg.tiers.length} Level</span>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-slate-900 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Market Positioning</span>
+                      <TrendingDown size={14} className="text-emerald-400" />
+                    </div>
+                    <p className="text-[11px] font-medium text-slate-400 leading-relaxed">
+                      Harga unit <span className="text-white font-bold">{activeConfigUnit}</span> saat ini memiliki margin promo sebesar <span className="text-emerald-400 font-bold">{Math.round((activeCfg.masterPreNeed - activeCfg.seasonalPreNeed) / activeCfg.masterPreNeed * 100) || 0}%</span> dari harga master. Strategi ini kompetitif untuk kuartal ini.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* DISCOUNT STRATEGY */}
-              <DiscountConfig 
-                activeCfg={activeCfg}
-                unit={activeConfigUnit}
-                updateConfig={updateConfig}
-                updateTier={updateTier}
-                removeTier={removeTier}
-                addTier={addTier}
-              />
+              {/* RIGHT COLUMN: DP (COMPACT) + DISCOUNT CONFIG */}
+              <div className="space-y-8">
+                {/* COMPACT DP SECTION */}
+                <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm group hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center"><Receipt size={16} strokeWidth={2.5} /></div>
+                    <h2 className="text-[10px] font-bold text-slate-800 uppercase tracking-widest">Aturan Down Payment</h2>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6">
+                    <PriceField label="Minimum DP" value={activeCfg.minDP} onChange={(v) => updateConfig(activeConfigUnit, 'minDP', v)} />
+                    <PriceField label="Booking Fee" value={activeCfg.minBooking} onChange={(v) => updateConfig(activeConfigUnit, 'minBooking', v)} />
+                  </div>
+                </div>
+
+                <DiscountConfig 
+                  activeCfg={activeCfg}
+                  unit={activeConfigUnit}
+                  updateConfig={updateConfig}
+                  updateTier={updateTier}
+                  removeTier={removeTier}
+                  addTier={addTier}
+                />
+              </div>
             </div>
           </div>
         </div>
