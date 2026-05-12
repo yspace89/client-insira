@@ -31,16 +31,9 @@ export default function AnggotaTimPage() {
   const [topFilter, setTopFilter] = useState('Semua Anggota');
   const [searchTerm, setSearchTerm] = useState('');
   const [jabatanFilter, setJabatanFilter] = useState('Semua Jabatan');
+  const [levelFilter, setLevelFilter] = useState('Semua Level');
   const [selectedMember, setSelectedMember] = useState(null);
   
-  const teamStats = [
-    { label: 'Manager', count: 1, icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50/50' },
-    { label: 'Koordinator', count: 1, icon: Briefcase, color: 'text-indigo-500', bg: 'bg-indigo-50/50' },
-    { label: 'Rep.', count: 10, icon: UserCircle, color: 'text-amber-500', bg: 'bg-amber-50/50' },
-    { label: 'Marketing', count: 3, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50/50' },
-    { label: 'Associate', count: 479, icon: Users2, color: 'text-sky-500', bg: 'bg-sky-50/50' },
-  ];
-
   const teamMembersData = [
     { id: 1, name: 'Aan Semiharti', status: 'Aktif', level: 'Silver', cit: 450000000, jabatan: 'MA Under ACO', agensi: 'Propertilogi', referral: 'PRO624AAN', agreement: '-' },
     { id: 2, name: 'Siti Nur Lestari', status: 'Aktif', level: 'Silver', cit: 320000000, jabatan: 'MA Under MR', agensi: 'Propertilogi', referral: 'PRO623SITI', agreement: '-' },
@@ -53,16 +46,32 @@ export default function AnggotaTimPage() {
     { id: 9, name: 'Joko Anwar', status: 'Aktif', level: 'Silver', cit: 280000000, jabatan: 'MA PA lain', agensi: 'Indo Home', referral: 'EXT624JOK', agreement: '-' },
     { id: 10, name: 'Kurniawan', status: 'Non-Aktif', level: 'Gold', cit: 550000000, jabatan: 'MO', agensi: 'Propertilogi', referral: 'PRO624KUR', agreement: '-' },
     { id: 11, name: 'Linda Wati', status: 'Aktif', level: 'Platinum', cit: 1800000000, jabatan: 'MA Under MR', agensi: 'Propertilogi', referral: 'PRO624LIN', agreement: '-' },
+    { id: 12, name: 'Rahmat Hidayat', status: 'Aktif', level: 'Gold', cit: 950000000, jabatan: 'ACO', agensi: 'Propertilogi', referral: 'PRO624RAH', agreement: 'AGR-624-003' },
+  ];
+
+  const getActiveCount = (rolePrefix) => {
+    return teamMembersData.filter(m => m.status === 'Aktif' && m.jabatan.startsWith(rolePrefix)).length;
+  };
+
+  const teamStats = [
+    { label: 'Manager', count: getActiveCount('SM'), icon: ShieldCheck, color: 'text-blue-500', bg: 'bg-blue-50/50' },
+    { label: 'Koordinator', count: getActiveCount('ACO'), icon: Briefcase, color: 'text-indigo-500', bg: 'bg-indigo-50/50' },
+    { label: 'Memorial Representative', count: getActiveCount('MR'), icon: ShieldCheck, color: 'text-amber-500', bg: 'bg-amber-50/50' },
+    { label: 'Memorial Officer', count: getActiveCount('MO'), icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50/50' },
+    { label: 'Memorial Associate', count: getActiveCount('MA'), icon: Users2, color: 'text-sky-500', bg: 'bg-sky-50/50' },
   ];
 
   const filteredMembers = teamMembersData.filter(member => {
-    if (topFilter === 'Internal') {
+    if (topFilter === 'Propertilogi') {
       if (member.agensi !== 'Propertilogi') return false;
-    } else if (topFilter === 'External') {
+    } else if (topFilter === 'PA Lain') {
       if (member.agensi === 'Propertilogi') return false;
     }
     if (jabatanFilter !== 'Semua Jabatan') {
       if (member.jabatan !== jabatanFilter) return false;
+    }
+    if (levelFilter !== 'Semua Level') {
+      if (member.level !== levelFilter) return false;
     }
     const s = searchTerm.toLowerCase();
     return member.name.toLowerCase().includes(s) || member.referral.toLowerCase().includes(s) || member.agensi.toLowerCase().includes(s);
@@ -225,7 +234,7 @@ export default function AnggotaTimPage() {
 
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
           <div className="flex bg-slate-200/40 p-1 rounded-xl w-fit gap-1 border border-slate-100">
-            {['Semua Anggota', 'Internal', 'External'].map(tab => (
+            {['Semua Anggota', 'Propertilogi', 'PA Lain'].map(tab => (
               <button 
                 key={tab}
                 onClick={() => setTopFilter(tab)}
@@ -265,7 +274,12 @@ export default function AnggotaTimPage() {
 
         <div className="bg-white rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.02)] border border-slate-100 overflow-hidden mb-10">
           <div className="p-8 flex flex-col lg:flex-row justify-between items-center gap-8 border-b border-slate-50/60">
-            <h2 className="text-lg font-bold text-slate-800 tracking-tight">Database <span className="ml-4 px-2 py-0.5 bg-blue-50 text-blue-500 rounded text-[10px] font-bold border border-blue-100">{filteredMembers.length} Anggota</span></h2>
+            <h2 className="text-lg font-bold text-slate-800 tracking-tight">
+              Daftar Anggota {topFilter === 'Semua Anggota' ? 'Keseluruhan' : topFilter} 
+              <span className="ml-4 px-2 py-0.5 bg-blue-50 text-blue-500 rounded text-[10px] font-bold border border-blue-100 whitespace-nowrap">
+                {filteredMembers.length} Anggota Aktif
+              </span>
+            </h2>
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
               <div className="relative flex-1 sm:w-72">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
@@ -290,6 +304,19 @@ export default function AnggotaTimPage() {
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
               </div>
+              <div className="relative sm:w-48">
+                <select 
+                  className="w-full pl-4 pr-10 py-3 text-[11px] bg-slate-50 border border-slate-100 rounded-xl focus:outline-none appearance-none cursor-pointer font-bold text-slate-600 uppercase tracking-widest"
+                  value={levelFilter}
+                  onChange={(e) => setLevelFilter(e.target.value)}
+                >
+                  <option>Semua Level</option>
+                  {['Silver', 'Gold', 'Platinum'].map(l => (
+                    <option key={l} value={l}>{l}</option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
+              </div>
             </div>
           </div>
 
@@ -309,13 +336,15 @@ export default function AnggotaTimPage() {
               <tbody className="divide-y divide-slate-50">
                 {displayMembers.map((member, idx) => (
                   <tr key={member.id} className="group hover:bg-slate-50/40 transition-all cursor-pointer">
-                    <td className="px-8 py-6 text-xs text-slate-300 text-center font-bold tabular-nums">{String(idx + 1).padStart(2, '0')}</td>
+                    <td className="px-8 py-6 text-xs text-slate-300 text-center font-bold tabular-nums">{idx + 1}</td>
                     <td className="px-8 py-6">
                       <div className="flex flex-col">
                         <span className="text-sm font-bold text-slate-800 tracking-tight">{member.name}</span>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className={`w-1 h-1 rounded-full ${member.status === 'Aktif' ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{member.jabatan}</span>
+                          <span className={`w-1.5 h-1.5 rounded-full ${member.status === 'Aktif' ? 'bg-emerald-500' : 'bg-red-500 animate-pulse'}`} />
+                          <span className={`text-[9px] font-bold uppercase tracking-widest ${member.status === 'Aktif' ? 'text-slate-400' : 'text-red-500'}`}>
+                            {member.status} • {member.jabatan}
+                          </span>
                         </div>
                       </div>
                     </td>
@@ -332,7 +361,7 @@ export default function AnggotaTimPage() {
                         {member.agensi}
                       </span>
                     </td>
-                    <td className="px-8 py-6 text-[10px] font-medium text-slate-400 tracking-tight uppercase">{member.referral}</td>
+                    <td className="px-8 py-6 text-[10px] font-medium text-slate-400 tracking-tight">{member.referral}</td>
                     <td className="px-8 py-6 text-right">
                       <button 
                         onClick={() => setSelectedMember(member)}
